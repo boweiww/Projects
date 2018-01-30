@@ -91,16 +91,16 @@ int main (int argc, char *argv[]) {
   // diffdir379 period path
   
   // Input handling
-  int period = 60;
+  int period = 5;
   char *path = 0;
-
+  struct sigaction sa;
   int cmd_line_error = false;
   
   if (argc != 3) {
     cmd_line_error = true;
   }
   else {
-    period = atoi(argv[1]);
+    //period = atoi(argv[1]);
     path = argv[2];
   }
 
@@ -128,8 +128,12 @@ int main (int argc, char *argv[]) {
           return 1;
       }
       sleep(period);
+      
+      if (sigaction(SIGINT, &sa, NULL) == -1) {
+          break;
+      }
   }
-
+    return 0;
 }
 
 
