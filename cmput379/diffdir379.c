@@ -1,65 +1,135 @@
-//
-//  main.c
-//  379
-//
-//  Created by bowei on 2018-01-29.
-//  Copyright © 2018 bowei. All rights reserved.
-//
+#define false 0
+#define true 1
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <errno.h>
-#include <sys/types.h>
 #include <time.h>
-#include <sys/inotify.h>
-#include <unistd.h>
-#include <signal.h>
-#include <stdbool.h>
+#include <string.h>
+#include <sys/stat.h>
+#include <sys/types.h>
+#include <dirent.h>
 
+// holds the previous sample of the directory in memory
+struct content_arr{ 
+    struct dirent *arr;
+    int    size;
+    int    used;
 
-#define EVENT_SIZE ( sizeof (struct inotify_event) )
-#define BUF_LEN ( 1024 * ( EVENT_SIZE + 16 ) )
+};
 
-int main(  )
-{
-  
-    int length, i = 0;
-    int fd;
-    int wd;
-    // char buffer[BUF_LEN];
-    char buffer[16384];
+// checks if content_arr needs to be reallocated and then double capacity if neccessary
+void reallocate(struct content_arr *contents) {
+    if (contents->used >= contents->size -1) {
+        contents->size *= 2;
+        contents->arr = realloc(contents->arr, contents->size*sizeof(struct dirent));
+    }
+}
 
-    fd = inotify_init();
+int print_dir(int period, const char *path, struct content_arr *contents) {
+    // 1. print the current time
+    // http://zetcode.com/articles/cdatetime/
+    int time_string_len = 256;
+    char time_string[time_string_len];
+
     
-    if ( fd < 0 ) {
-        perror( "inotify_init" );
+    time_t curr_time = time(NULL);            // get time in seconds
+    struct tm *date = localtime(&curr_time);  // split time into day, month, year, etc.
+    
+    // format and print time
+    // Sun Nov 5 13:10:50 MST 2017
+    strftime(time_string, time_string_len, "%a %b %d %H:%M:%S %Z %Y", date);
+    printf("%s\n",time_string);
+
+    // 2. check if we have to print anything new
+    // https://www.geeksforgeeks.org/c-program-list-files-sub-directories-directory/
+    DIR *dr = opendir(path);
+    struct dirent *entry;
+     
+    if (dr == NULL) {
+        printf("Could not open directory\n");
+        return 1;
     }
-     wd = inotify_add_watch( fd, "/cshome/bowei2", IN_MODIFY | IN_CREATE | IN_DELETE );
-    while (true){
-        struct inotify_event *event = ( struct inotify_event * ) &buffer[ i ];
-        
-        time_t rawtime;
-        struct tm * timeinfo;
-        
-        time ( &rawtime );
-        timeinfo = localtime ( &rawtime );
-	// printf ( "Current local time and date: %s", asctime (timeinfo) );
-        
-            if ( event->mask & IN_CREATE ) {
-                printf( "The file %s was created.\n", event->name );
+
+    // for now, simply print out the contents of the directory
+    // shows some additions and modifications but doesn't show removal right now
+    while ((entry = readdir(dr)) != NULL) {
+        int exists = false;
+
+        for(int i = 0; i < contents->size; ++i) {
+            // d_ino is file serial number
+            // d_name is name of entry
+            // if the file changes, d_ino is different but d_name is the same
+            if (strcmp(entry->d_name, contents->arr[i].d_name) == 0) {
+                // entry already exists in dir_contents
+                exists = true;
+                
+                // entry has changed
+                if (entry->d_ino != contents->arr[i].d_ino) {
+                    printf("* %s\n", entry->d_name);
+                    contents->arr[i].d_ino = entry->d_ino;
+                }
+
             }
-            if ( event->mask & IN_DELETE ) {
-                printf( "The file %s was deleted.\n", event->name );
-            }
-            if ( event->mask & IN_MODIFY ) {
-                printf( "The file %s was modified.\n", event->name );
-            }
-	    
-	// if (sigaction(SIGINT ,NULL,&old_action) != -1){
-	//   printf("ctrl + c is pressed");
-	// }
-	 //	sleep(5);
-	
+        }
+
+        if (!exists) {
+            printf("+ %s\n", entry->d_name);
+
+            reallocate(contents);
+            contents->arr[contents->used] = *entry;
+            contents->used += 1;
+        }
+
     }
+
+    closedir(dr);
     return 0;
 }
+
+int main (int argc, char *argv[]) {
+  // invoked as follows:
+  // diffdir379 period path
+  
+  // Input handling
+  int period = 60;
+  char *path = 0;
+
+  int cmd_line_error = false;
+  
+  if (argc != 3) {
+    cmd_line_error = true;
+  }
+  else {
+    period = atoi(argv[1]);
+    path = argv[2];
+  }
+
+  // If path is not a valid directory this will be handled in print_dir
+  
+  if (cmd_line_error) {
+    printf("Usage: %s <period> <path>\n", argv[0]);
+    
+    printf("<period> is the reporting period in seconds\n");
+    printf("<path> is the path to the directory to monitor\n");
+
+    printf("\ndiffdir is a program that periodically reports the changes to the contents of a directory. It will run forever until terminated.\n");
+    return -1;
+  }
+ 
+  // actual main part of the program
+  struct content_arr contents;
+  int start_arr_size = 256;
+  contents.arr = malloc(start_arr_size * sizeof(struct dirent)); 
+  contents.size = start_arr_size;
+  contents.used = 0;
+  
+  while(true) {
+      if (print_dir(period, path, &contents) != 0) {
+          return 1;
+      }
+      sleep(period);
+  }
+
+}
+
+
