@@ -1,8 +1,10 @@
 all:
-	gcc -std=c99 diffdir379.c -o diffdir
+	gcc -std=c99 -D_POSIX_C_SOURCE diffdir379.c -o diffdir
 
 Compile:
-	gcc -std=c99 diffdir3791.c -o diffdir1
+
+	gcc -std=c99 -D_POSIX_C_SOURCE diffdir379n.c -o diffdirn
+
 
 
 clean: 
