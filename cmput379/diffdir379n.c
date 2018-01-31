@@ -43,6 +43,7 @@ int length, i =0;
 int fd,flags,nfds;
 fd_set read_fdst;
 struct timeval tv;
+struct sigaction new_action, old_action;
 
 
 int print_dir() {
@@ -63,35 +64,29 @@ int print_dir() {
 
 
     length =0;
-/*
+    //set fd to check read
     FD_ZERO(&read_fdst);
-    FD_SET(0,&read_fdst);
-    tv.tv_sec = 1;
+    FD_SET(fd,&read_fdst);
+    //set tv for maximun read time
+    tv.tv_sec = 0;
     tv.tv_usec = 100;
-    nfds = select (1,&read_fdst,NULL,NULL,&tv);
+    //set select
+    nfds = select (fd+1,&read_fdst,NULL,NULL,&tv);
+    //select cases
     switch(nfds){
     case -1:
         printf("Something wrong happened");
     case 0:
         return 0;
     default:
-        //printf("I am in");
         length = read(fd, buffer, EVENT_BUF_LEN);
-    }*/
-    //return read(fd, buffer, EVENT_BUF_LEN);
-
-
-    //The program will be stuck at here
-
-    length = read(fd, buffer, EVENT_BUF_LEN);
-
-    //fwrite(buffer, EVENT_BUF_LEN, 1, stdout);
-    //length = read(fd, buffer, EVENT_BUF_LEN);
+    }
 
 
 
 
     i=0;
+    //inotify to check modification of file
     while (i < length) {
             struct inotify_event *event = (struct inotify_event *) &buffer[i];
             if (event->len) {
@@ -112,11 +107,19 @@ int print_dir() {
         }
 
 
-    strncpy(lastbuffer, buffer, EVENT_BUF_LEN);
-
-
     return 0;
 }
+void signal_callback_handler(int signum){
+
+    print_dir();
+
+   // Terminate program
+    return;
+
+}
+
+
+
 
 int main (int argc, char *argv[]) {
   // invoked as follows:
@@ -125,7 +128,7 @@ int main (int argc, char *argv[]) {
   // Input handling
   /////////////////
 
-  //daljdhsajkhd
+
   int wd;
   int cmd_line_error = false;
 
@@ -149,55 +152,26 @@ int main (int argc, char *argv[]) {
   }
   /////////////////
 
-  // actual main part of the program
 
-  /*int start_arr_size = 256;
-  contents.arr = malloc(start_arr_size * sizeof(struct dirent));
-  contents.size = start_arr_size;
-  contents.used = 0;*/
 
+  /* Set up the structure to specify the new action. */
+
+
+  signal(SIGUSR1, signal_callback_handler);
   fd = inotify_init();
 
     /*checking for error*/
   if (fd < 0) {
         perror("inotify_init");
     }
+    //set wd for inotify
   wd = inotify_add_watch(fd, path, IN_MODIFY | IN_CREATE | IN_DELETE);
 
-
-  // sigaction is confusing
-  // https://www.ibm.com/support/knowledgecenter/en/ssw_i5_54/apis/sigactn.htm
-  //struct sigaction sa;
-  //struct sigaction sa;
-  //sa.sa_flags = 0;
-  // this sets the action for sa to call the print_dir function
-  //sa.sa_handler = print_dir;
-  // this sets so when the signal SIGUSR1 is sent, sa's action is called (print_dir function)
-  //sigaction(SIGUSR1, &sa, NULL);
-
-  // this sends the signal to test if it works
-
-  //kill(getpid(), SIGUSR1);
-
-    //printf("%d",buffer[fd]);
-  /*if (flags = fcntl(STDIN_FILENO,F_GETFL,0)<0){
-    printf("F_GETFL error");
-    exit(0);
-  }
-
-  flags |= O_NONBLOCK;
-
-  if( fcntl( STDIN_FILENO, F_SETFL, flags) < 0){
-       printf("F_SETFL error");
-        exit(0);
-  }*/
-  //fcntl(fd, F_SETFL, O_NONBLOCK);
+    //loop for checking modification
   while(true) {
-      //printf("This is d %d",buffer[fd]);
 
       print_dir();
       sleep(period);
-      //break;
 
   }
   return 0;
