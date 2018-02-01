@@ -5,7 +5,7 @@
 ;(xmember '(1) '((1) 2 3))
 ;(print (eq '(1) (car '((1) 2 3))))
 
-(defun xmember  (X Y )
+(defun xmember  (X Y)
 	(cond 		
 		((equal Y nil) nil)
 		((null Y) nil)
@@ -16,7 +16,7 @@
 )
 ;Test Cases:
 
-(print(xmember nil nil))
+(print(xmember nil nil)) 
 (print(xmember nil '(nil)))
 (print(xmember nil '((nil)) ))
 (print(xmember '(nil) '(1 2 3 (nil))))

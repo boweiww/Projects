@@ -9,6 +9,7 @@
 #include <dirent.h>
 #include <unistd.h>
 #include <errno.h>
+#include <stdbool.h>
 
 #define FALSE 0
 #define TRUE 1

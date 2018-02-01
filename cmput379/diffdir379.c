@@ -18,7 +18,6 @@ static char *path = 0;
 static int wd,fd = -1;
 static struct sigaction user_action, interrupt_action, alarm_action;
 static int exit_signal = FALSE; // This indicates if the program should end next time possible
-
 // Tell program to exit next time it reaches end of printing
 void catch_stop() {
     exit_signal = TRUE;
@@ -154,7 +153,8 @@ void print_changes() {
         exit(0);
     }
     closedir(dir);
-
+    //new file is used to remember new created file to not show modify in the same process
+    char newfile[20][100];
     int length =0;
     int flags, nfds = 0;
     fd_set read_fdst;
@@ -195,7 +195,8 @@ void print_changes() {
     struct entry arr[ENTRY_ARR_LEN];
     int used_entries = 0;
 
-    int i=0;
+    int f,j,i=0;
+    bool creat_mod = false;
     //inotify to check modification of file
     while (i < length) {
         struct inotify_event *event = (struct inotify_event *) &buffer[i];
@@ -208,6 +209,8 @@ void print_changes() {
                 int location = -1;
                 struct entry *curr = find_entry(event->name, arr, used_entries);
 
+                strcpy(newfile[f], event->name);
+                f += 1;
                 if(curr == NULL) {
                     // if entry doesn't already exist in arr, create it
                     struct entry new;
@@ -232,7 +235,13 @@ void print_changes() {
 
                 // if entry doesn't already exist in arr, create it
                 // otherwise it doesn't matter
-                if(curr == NULL) {
+                creat_mod = false;
+                for( j = 0; j < f; j = j + 1 ){
+                    if (strcmp(newfile[j], event->name) != 0){
+                        creat_mod = true;
+                    }
+                }
+                if(curr == NULL && creat_mod) {
                     struct entry new;
                     new.name = event->name; new.status = MODIFIED;
                     arr[used_entries] = new;
@@ -369,9 +378,10 @@ int main (int argc, char *argv[]) {
   alarm(period);
 
   while (TRUE) {
+
       print_time();
       print_changes();
-      sleep(10);
+      sleep(30);
   }
 }
 
