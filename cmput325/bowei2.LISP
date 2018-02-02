@@ -5,7 +5,7 @@
 ;(xmember '(1) '((1) 2 3))
 ;(print (eq '(1) (car '((1) 2 3))))
 
-(defun xmember  (X Y )
+(defun xmember  (X Y)
 	(cond 		
 		((equal Y nil) nil)
 		((null Y) nil)
@@ -16,7 +16,7 @@
 )
 ;Test Cases:
 
-(print(xmember nil nil))
+(print(xmember nil nil)) 
 (print(xmember nil '(nil)))
 (print(xmember nil '((nil)) ))
 (print(xmember '(nil) '(1 2 3 (nil))))
@@ -113,6 +113,7 @@
 ;Question 6
 ;order not matter
 ;self refer self is not useful
+<<<<<<< HEAD
 (defun reached (x y)
 	removenumber x (remove-duplicate (multiplereach (singlereach x y) y))
 
@@ -144,3 +145,5 @@
 (reached 'a '((a b)(a c)(a d))); ==> (b c d)
 (reached 'a '((c d)(d a)(a b)(b c))); ==> (b c d)
 (reached 'a '((e x)(b x)(x e)(a a)(a b))); ==> (b e x) 
+=======
+>>>>>>> 5b8bc1e99e7d318712eeb444b2a6deaa9a3f5cc0
