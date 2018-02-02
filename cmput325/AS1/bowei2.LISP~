@@ -23,11 +23,6 @@
 (print(xmember '(nil) '(nil)))
 
 ;Question 2:
-;Test Cases:
-
-(print(flatten '(a (b c) d)))
-(print(flatten '((((a))))))
-(print(flatten '(a (b c) (d ((e)) f))))
 
 (defun flatten (x)
     (cond
@@ -37,6 +32,11 @@
     )
 )
 
+;Test Cases:
+
+(print(flatten '(a (b c) d)))
+(print(flatten '((((a))))))
+(print(flatten '(a (b c) (d ((e)) f))))
 
 ;Qustion 3:
 
@@ -109,8 +109,38 @@
 ;(print(equal nil (cdr '(a))))
 (print(allsubsets '(a)))
 (print(allsubsets '(a b c d)))
-(print(cdr '(1 2)))
+(print(caar '(1 2)))
 
 ;Question 6
 ;order not matter
 ;self refer self is not useful
+(defun reached (x y)
+	removenumber x (remove-duplicate (multiplereach (singlereach x y) y))
+
+	
+)
+(defun removenumber (x y)
+	(cond
+		((equal x (car y) (cdr y))
+		(t (append (car y) (removenumber x (cdr y))))
+	)
+)
+(defun multiplereach (x y)
+	(cond
+		((equal x nil) nil)
+		(t (append (singlereach(car(singlereach x y)) y) (multiplereach (cdr x) y)))
+	)
+(defun singlereach (x y)
+	(cond
+		((equal nil y) nil)
+		((equal (car(cdr(car y))) x) (singlereach x (cdr y))
+		((equal (car(car y)) x ) append((car(cdr(car y)) (singlereach (car(cdr(car y))) y)))
+		(t (singlereach x (cdr y)))
+	)
+)
+		
+(reached 'a '((b b))) ==> NIL
+(reached 'a '((b a))) ==> NIL
+(reached 'a '((a b)(a c)(a d))) ==> (b c d)
+(reached 'a '((c d)(d a)(a b)(b c))) ==> (b c d)
+(reached 'a '((e x)(b x)(x e)(a a)(a b))) ==> (b e x) 

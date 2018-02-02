@@ -134,9 +134,13 @@
 	(cond
 		((equal nil y) nil)
 		((equal (car(cdr(car y))) x) (singlereach x (cdr y)))
-		((equal (car(car y)) x ) (append((car(cdr(car y))) (singlereach (cadar y) y))))
-		(t (singlereach x (cdr y)))
+		((equal (car(car y)) x ) (append((getsecond (car y)) (singlereach (getsecond (car y)) y)))
+)	
+                (t (singlereach x (cdr y)))
 	)
+)
+(defun getsecond (x)
+        car(cdr x)
 )
 		
 (reached 'a '((b b))); ==> NIL
