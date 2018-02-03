@@ -1,3 +1,6 @@
+;Bowei Wang 1462495
+;cmput325 assignment 1
+
 ;Question 1:
 
 ;xmember function is defined to check whether x is in y, if so, return T else keep checking 
@@ -227,7 +230,7 @@
 ;Test cases:
 
 (print (rank '(a b c d) '((d c)(a c)(b d)(c c)(a a)(d b)))); ==> (c b d a) OR (c d b a)
-(print rank '(a b) '((a a)(b b)(a b)(c a)))); ==> (a b) OR (b a)
+(print (rank '(a b) '((a a)(b b)(a b)(c a)))); ==> (a b) OR (b a)
 (print (rank '(a b c) '((a b)(a c)(a d)))); ==> (b c a) OR (c b a)
 (print (rank '(b a k) '((k b)(b k)(a k)(k a)))); ==> (k a b) OR (k b a)
 (print (rank '(m n) '((n m)(m m)(t n)(s t)(t s)))); ==> (m n) OR (n m)
