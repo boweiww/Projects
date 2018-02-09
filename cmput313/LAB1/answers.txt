@@ -10,6 +10,56 @@ int ap_pos; // the (x,y,z)-coordinates of an access point
 unsigned short code; // stores the return value of function CNET_ccitt()
 } PACKET;
 2.
+we can call the global integer variable "nodeinfo.time_in_usec" to get time.
+CnetTime is a 64-bit integer so we can use this instruction to print time.
+printf("time = %lld usecs\n", value);
+3q1.
+the default will give value: delta = 213714
+reason:
+we have 
+minmessagesize           = 48bytes
+wan-bandwidth            = 56000bps
+wan-propagationdelay     = 100000usec
+in topology file.
+we can calculate the time delay for each message with the smallest size:
+time = L/R + propagation delay 
+48*8/56000 +100000 = 106857 usec for one way
+106857*2 = 213714 usec for two ways
+That is the reason why we get 213714.
 
-3.
+q2. we can just change propagationdelay to 746571 usec to make delta approximately equal to 1.5.
+second.
 
+4.
+can be different.
+sizeof(f) will get the size of the structure f
+However FRAME_SIZE(f) will get the length of the message.
+
+5.
+the value for CNET_IP_checksum( msg_1, 6)) is 65475
+the value for CNET_IP_checksum( msg_2, 6)) is 65445
+6.
+"we can get an accurate and immediate report on the location (source file, function name, line number, and nodename) and type of each error."by using the CHECK macro.
+(from http://www.csse.uwa.edu.au/cnet/faq.html)
+
+The function check is like this:
+#define CHECK(call)     do{ if(call) != 0) \
+                        CNET_exit(__FILE__, __func__, __LINE__);} while(false)
+If unexpected event happens, the called function will return -1 and check will get it for further handle.
+while error happens, check will call  CNET_exit(__FILE__, (char *)NULL, __LINE__);
+this instruction will exit cnet and "display the invoking node's name, source file, function, and line where it was called, together with the latest cnet_errno value"
+(from http://cs.carleton.edu/faculty/jondich/courses/cs337_w00/Documents/cnetdoc/cnet.h)
+
+By checking CNET_write_physical with a invalid link ,we can get an error information like this:
+"Error @2506856usec while executing perth, file ping-W18.c, line 72, function physical_ready() ER_BADLINK: Invalid link number passed to a function."
+
+7.
+yes // not sure what should be answered
+switch (kind) {
+    case DL_ACK :
+       .....
+    case DL_DATA:
+this will check whether the transmitted message is a data or an ack.
+The "down from application" will shows for every time a new link happens.
+printf("down from application, seq=%d\n", nextframetosend);
+transmit_frame(lastmsg, DL_DATA, lastlength, nextframetosend);

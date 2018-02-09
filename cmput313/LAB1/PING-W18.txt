@@ -1,7 +1,7 @@
 // PING: based on TOPOLOGY.a
 //
-compile = "ping-W18.c"
-
+compile = "lab1.c"
+propagationdelay        = 746571usec,
 host perth {
     x=100, y=50
     address     = 302
@@ -9,7 +9,6 @@ host perth {
 
     link to melbourne
 }
-
 host melbourne {
     x=400, y=50
     address     = 351

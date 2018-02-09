@@ -1,0 +1,43 @@
+// A WAN with 7 nodes
+//
+
+compile = "lab1.c"
+
+mapwidth=200m, mapheight=150m, mapgrid= 25m, mapscale= 0.3
+
+router West    {x= 50,  y= 100, address= 10, link to North_1, link to South_1}
+host North_1   {x= 75,  y= 50,  address= 20, link to Middle}
+host South_1   {x= 75,  y= 150, address= 25, link to Middle}
+router Middle  {x= 100, y= 100, address= 30, link to North_2, link to South_2,link to South_3,link to South_4,link to South_5,link to South_6,link to South_8,link to South_9,link to South_10,link to South_11,link to South_12,link to South_13,link to South_14,link to South_15,link to South_16,link to South_17,link to South_18,link to South_19,link to South_20,link to South_21,link to South_22,link to South_23,link to South_24,link to South_25,link to South_26,link to South_27,link to South_28,link to South_29,link to South_30,link to South_31}
+host North_2   {x= 125, y= 50,  address= 40, link to East}
+host South_2   {x= 125, y= 150, address= 45, link to East}
+router East    {x= 150, y= 100, address= 50}
+host South_3   {x= 151, y= 101, address= 51,link to Middle}
+host South_4   {x= 152, y= 102, address= 52,link to Middle}
+host South_5	{x= 153, y= 103, address= 53,link to Middle}
+host South_6	{x= 154, y= 104, address= 54,link to Middle}
+host South_7	{x= 155, y= 105, address= 55,link to Middle}
+host South_8	{x= 156, y= 106, address= 56,link to Middle}
+host South_9	{x= 157, y= 107, address= 57,link to Middle}
+host South_10	{x= 160, y= 110, address= 60,link to Middle}
+host South_11	{x= 161, y= 111, address= 61,link to Middle}
+host South_12	{x= 162, y= 112, address= 62,link to Middle}
+host South_13	{x= 163, y= 113, address= 63,link to Middle}
+host South_14	{x= 164, y= 114, address= 64,link to Middle}
+host South_15	{x= 165, y= 115, address= 65,link to Middle}
+host South_16	{x= 166, y= 116, address= 66,link to Middle}
+host South_17	{x= 167, y= 117, address= 67,link to Middle}
+host South_18	{x= 168, y= 118, address= 68,link to Middle}
+host South_19	{x= 169, y= 119, address= 69,link to Middle}
+host South_20	{x= 170, y= 120, address= 70,link to Middle}
+host South_21	{x= 171, y= 121, address= 71,link to Middle}
+host South_22	{x= 172, y= 122, address= 72,link to Middle}
+host South_23	{x= 173, y= 123, address= 73,link to Middle}
+host South_24	{x= 174, y= 124, address= 74,link to Middle}
+host South_25	{x= 175, y= 125, address= 75,link to Middle}
+host South_26	{x= 176, y= 126, address= 76,link to Middle}
+host South_27	{x= 177, y= 127, address= 77,link to Middle}
+host South_28	{x= 178, y= 128, address= 78,link to Middle}
+host South_29	{x= 179, y= 129, address= 79,link to Middle}
+host South_30	{x= 180, y= 130, address= 80,link to Middle}
+host South_31	{x= 181, y= 131, address= 81,link to Middle}
