@@ -5,11 +5,7 @@
 ;(xmember '(1) '((1) 2 3))
 ;(print (eq '(1) (car '((1) 2 3))))
 
-<<<<<<< HEAD
 (defun xmember  (X Y)
-=======
-(defun xmember  (X Y )
->>>>>>> 32c9c0e400dfc5e3a3114e3a80a567106d8f8978
 	(cond 		
 		((equal Y nil) nil)
 		((null Y) nil)
@@ -20,25 +16,13 @@
 )
 ;Test Cases:
 
-<<<<<<< HEAD
 (print(xmember nil nil)) 
-=======
-(print(xmember nil nil))
->>>>>>> 32c9c0e400dfc5e3a3114e3a80a567106d8f8978
 (print(xmember nil '(nil)))
 (print(xmember nil '((nil)) ))
 (print(xmember '(nil) '(1 2 3 (nil))))
 (print(xmember '(nil) '(nil)))
 
 ;Question 2:
-<<<<<<< HEAD
-=======
-;Test Cases:
-
-(print(flatten '(a (b c) d)))
-(print(flatten '((((a))))))
-(print(flatten '(a (b c) (d ((e)) f))))
->>>>>>> 32c9c0e400dfc5e3a3114e3a80a567106d8f8978
 
 (defun flatten (x)
     (cond
@@ -48,14 +32,11 @@
     )
 )
 
-<<<<<<< HEAD
 ;Test Cases:
 
 (print(flatten '(a (b c) d)))
 (print(flatten '((((a))))))
 (print(flatten '(a (b c) (d ((e)) f))))
-=======
->>>>>>> 32c9c0e400dfc5e3a3114e3a80a567106d8f8978
 
 ;Qustion 3:
 
@@ -128,49 +109,8 @@
 ;(print(equal nil (cdr '(a))))
 (print(allsubsets '(a)))
 (print(allsubsets '(a b c d)))
-<<<<<<< HEAD
+(print(caar '(1 2)))
 
 ;Question 6
 ;order not matter
 ;self refer self is not useful
-<<<<<<< HEAD
-(defun reached (x y)
-	removenumber x (remove-duplicate (multiplereach (singlereach x y) y))
-
-	
-)
-(defun removenumber (x y)
-	(cond
-		((equal x (car y)) (cdr y))
-		(t (append (car y) (removenumber x (cdr y))))
-	)
-)
-(defun multiplereach (x y)
-	(cond
-		((equal x nil) nil)
-		(t (append (singlereach(car(singlereach x y)) y) (multiplereach (cdr x) y)))
-	)
-)
-(defun singlereach (x y)
-	(cond
-		((equal nil y) nil)
-		((equal (car(cdr(car y))) x) (singlereach x (cdr y)))
-		((equal (car(car y)) x ) (append((car(cdr(car y))) (singlereach (cadar y) y))))
-		(t (singlereach x (cdr y)))
-	)
-)
-		
-(reached 'a '((b b))); ==> NIL
-(reached 'a '((b a))); ==> NIL
-(reached 'a '((a b)(a c)(a d))); ==> (b c d)
-(reached 'a '((c d)(d a)(a b)(b c))); ==> (b c d)
-(reached 'a '((e x)(b x)(x e)(a a)(a b))); ==> (b e x) 
-=======
->>>>>>> 5b8bc1e99e7d318712eeb444b2a6deaa9a3f5cc0
-=======
-(print(cdr '(1 2)))
-
-;Question 6
-;order not matter
-;self refer self is not useful
->>>>>>> 32c9c0e400dfc5e3a3114e3a80a567106d8f8978
