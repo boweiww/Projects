@@ -4,14 +4,6 @@
 #include <ncurses.h>
 #include <pthread.h>
 #include <sys/select.h>
-#include <curses.h>
-// Contains any declarations or functions common to both client and server
-
-
-// Holds information related to a client's character
-
-// All clients are sent player structs for each player in the game, so this should be as small as possible
-
 
 static int sock;    // socket to server
 static int action; // action this client will take on the next update
@@ -173,30 +165,6 @@ void * read_input_loop(void * arg) {
 
 // Waits for server to send a message
 // When it does, update our position
-void user_action (struct player *us , int action){
-    //int x = us->x, y = us->y, facing = us->facing;
-    switch(action){
-        case(0):
-            return;
-        case(UP):
-            us->y = us->y + 1;
-
-            break;
-        case(DOWN):
-            us->y = us->y - 1;
-            break;
-        case(LEFT):
-            us->x = us->x - 1;
-            break;
-        case(RIGHT):
-            us->x = us->x + 1;
-            break;
-        case(SHOOT):
-            printf("shoot\n");
-            return;
-    }
-    us->facing = action;
-}
 void listen_server(struct player *us, fd_set readset) {
     // http://developerweb.net/viewtopic.php?id=2933
 
@@ -223,7 +191,7 @@ void listen_server(struct player *us, fd_set readset) {
     struct timeval tv;
     FD_ZERO(&readset);
     FD_SET(sock, &readset);
-    tv.tv_sec = 0;
+    tv.tv_sec = 2;
     tv.tv_usec = 50;
     
     result = select(sock + 1, &readset, NULL, NULL, &tv);
@@ -232,7 +200,7 @@ void listen_server(struct player *us, fd_set readset) {
         if (tempaction != ' '){
             action = tempaction;
             printf("I Got IT\n");
-            user_action(us, action);
+            
             if (result == 0) {
                 
                 close(sock);
