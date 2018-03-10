@@ -1,46 +1,65 @@
-How do you ensurethat input responsetime(keystrokeread, transmission of command, receiving at theserver) is minimized?
-
-I have estimaed the time cost of each update and handle the update in advance. Therefore, the respon time can be more accurate.
-By keep updatding avg_time in main function.
+How do you ensure that input response time(keystroke read, transmission of command, receiving at the server) is minimized?
 
 
-How do you minimizetheamount of traffic flowing back and forth between clients and server?
-
-Use select function to get information from sender so that we don't need to keep call recv or send. This is done in get_client_action function.
-
-
-How do you handle multiplecommands being sent from a client between two successive game board updates? 
-
-Use select function to handle, with corresponding value passed in get_client_action, the server can know all the actions happened in all clients.
+We use ncurses with cbreak() which makes any pressed keys immediately available to the program, so players do not have to press enter to give a command. 
+We also always immediately transfer the keystrokes to the server instead of waiting for an update or timer. Also, we only have to send a single char, which is smaller and quicker than a bigger datatype. This is in read_input in gameclient379.c.
 
 
-How do you ensurethat the same(consistent) state is broadcast to all clients?
 
-Server will first get actions from client, when the period is reached. It will evaluate and send all the states. Therefore the state is updated at same time.
+How do you minimize the amount of traffic flowing back and forth between clients and server?
+
+
+Use select function to get information from sender so that we don't need to keep calling recv or send. This is done in get_client_action function. 
+We also try to use chars instead of ints for passed numbers that only have limited possible values.
+
+
+
+How do you handle multiple commands being sent from a client between two successive game board updates?
+ 
+
+When a client gives a new command it immediately sends it to the server, which replaces the previous command sent to it from that client for that period.
+
+
+
+How do you ensure that the same (consistent) state is broadcast to all clients?
+
+
+Server first gets actions from the client. Then the server evaluates the actions and sends all the states of each player to the clients at once. Clients do not manipulate the state. Therefore the state clients display always comes from the same information.
 This is done in game_update function.
 
 
-How do you ensurethe periodic broadcast updates happen as quickly as possible?
 
-The game_update will first evaluate the client actions then save the state in a loop. The state will be send to clients in a for loop and when client get it,
-client will refresh the interface at once.
+How do you ensure the periodic broadcast updates happen as quickly as possible?
+
+
+The game_update will first evaluate the client actions then save the state in a loop. The state will be send to clients in a for loop and when client get it, client will refresh the interface at once.
+
+For each update we start only lock and unlock the mutex once, instead of many commands of turning it off and on, since nearly everything it does is changing important data, and the update is the highest priority for us.
+
+
 
 How do you deal with clients that fail without harming the gamestate?
 
-In get_client_action, if a client fail, the corresponding ID will be set to -1, which is a number that cannot be reached in normal case.
-While evaluating clients, if serve find a client with ID = -1, it will jump over that client.
+
+If a client disconnects from the server they are dropped from the games memory and no longer appear in the game. The other clients are moved in memory but their information is the exact same.
 
 
-How do you handlethe graceful termination of the server when it receives a signal? 
 
-The function term will handle the SIGTERM. It will disconnect all the clients then exit.
-
-
-How do you deal with clients that unilaterally break theconnection to theserver?
-
-The recv will return 0 in get_client_action. The server will regard the client as failed client.
+How do you handle the graceful termination of the server when it receives a signal? 
 
 
-How can you improvethe user interface without hurting performance?
+The function term() handles SIGTERM. It sends a signal to all the clients that it is shutting down, closes sockets and memory, then exits.
+
+
+
+How do you deal with clients that unilaterally break the connection to the server?
+
+
+They are removed from the games memory and no longer appear in the game.
+
+
+
+How can you improve the user interface without hurting performance?
+
 
 Probably we can use a picture as the interface and just refresh the position of the client.
