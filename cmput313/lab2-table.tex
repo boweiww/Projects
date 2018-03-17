@@ -1,0 +1,48 @@
+\documentclass[12pt]{article}
+
+\usepackage{times}
+\usepackage{epsfig,graphicx,fancybox}
+\usepackage{fancyhdr}
+
+\setlength{\textwidth}{6.5in}
+\setlength{\textheight}{9in}
+\setlength{\topmargin}{-.75in}
+%\renewcommand{\baselinestretch}{1.1}
+\setlength{\oddsidemargin}{0.0in}
+\setlength{\evensidemargin}{0.0in}
+
+\begin{document}
+%------------------------------------------------------------
+\newcommand {\ol}[1] {\overline{#1}}
+%------------------------------------------------------------
+
+\begin{center}
+%\small
+\footnotesize
+\begin{tabular}{|l || p{0.6in}|p{0.6in}|p{0.65in} || p{0.6in}|p{1.0in}|}
+\hline
+Network	&\multicolumn{3}{c||}{Simulation Results}
+	&\multicolumn{2}{c|}{Analytical Results} \\
+	&\multicolumn{3}{c||}{($T_{sim}= \cdots$ sec.)}
+	&\multicolumn{2}{c|}
+	{(using $\ol{Thr}_{with\_errors}=\frac{Thr_{error\_free}}{\ol{N}_r}$)}\\
+	\cline{2-6}
+	&Messages correctly delivered to AL
+	&KBytes correctly delivered to AL
+	&Average throughput (msg/sec)
+	&Estimated $\ol{N_r}$
+	&Estimated $\ol{Thr}_{with\_errors}$ (msg/sec) \\
+\hline \hline
+W18-NETa    &$\ 48$ &$\ 288$ &$\ 0.096$ &$\ 1$ &$\ 0.095$ \\
+\hline
+W18-NETb    &$\ 37$ &$\ 555$ &$\ 0.074$ &$\ 1$ &$\ 0.078$ \\
+\hline
+W18-NETc    &$\ 24$ &$\ 144$ &$\ 0.048$ &$\ 2$ &$\ 0.075$ \\
+\hline
+W18-NETd    &$\ 12$ &$\ 72$ &$\ 0.024$ &$\ 4$ &$\ 0.023$ \\
+\hline
+\end{tabular}
+\end{center}
+\normalsize
+% ------------------------------------------------------------
+\end{document}

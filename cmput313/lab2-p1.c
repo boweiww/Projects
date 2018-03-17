@@ -103,16 +103,18 @@ static EVENT_HANDLER(physical_ready)
     int		outLink= 1;
     len         = sizeof(FRAME);
     CHECK(CNET_read_physical(&link, &f, &len));
-
+    if (nodeinfo.nodetype != NT_HOST){
+        outLink= (link == 1)? nodeinfo.nlinks : 1;
+        CHECK ( CNET_write_physical (outLink, &f, &len) );
+        return;
+    }
     checksum    = f.checksum;
     f.checksum  = 0;
     if(CNET_ccitt((unsigned char *)&f, (int)len) != checksum) {
         printf("\t\t\t\tBAD checksum - frame ignored\n");
         return;           // bad checksum, ignore frame
     }
-    if (nodeinfo.nodetype == NT_HOST){
-        CHECK ( CNET_write_physical (outLink, &lastFrame, &fLen) );
-    }
+   
 
     switch (f.kind) {
     case DL_ACK :
@@ -157,10 +159,13 @@ EVENT_HANDLER(reboot_node)
    
 
     lastmsg	= calloc(1, sizeof(MSG));
+    if (nodeinfo.nodetype == NT_HOST){
 
-    CHECK(CNET_set_handler( EV_APPLICATIONREADY, application_ready, 0));
+        CHECK(CNET_set_handler( EV_TIMER1,           timeouts, 0));
+        CHECK(CNET_set_handler( EV_APPLICATIONREADY, application_ready, 0));
+    }
     CHECK(CNET_set_handler( EV_PHYSICALREADY,    physical_ready, 0));
-    CHECK(CNET_set_handler( EV_TIMER1,           timeouts, 0));
+    
     CHECK(CNET_set_handler( EV_DEBUG0,           showstate, 0));
 
     CHECK(CNET_set_debug_string( EV_DEBUG0, "State"));
