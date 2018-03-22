@@ -1,0 +1,36 @@
+Simulation results is got by running correspond cnet files.
+Simulation results:		
+		Messages delivered   KB delivered  Average throughput
+a			48		288		0.096
+	
+b			37		555		0.074
+
+c			24		144		0.048
+
+d			12		72		0.024
+
+
+For NETa with corrupt probablity q = 0;
+Nr = 1/(1 − q) = 1
+Threrror-free = 1/(Tpkt + RTT) = 1/(6*8*2/60 + 4*2.2+0.1) = 1/10.5
+Estimated Thrwith errors (msg/sec):
+Thr = Threrror-free/Nr = 1/10.5/1 = 0.095
+
+
+For NETb with corrupt probablity q = 0;
+Nr = 1/(1 − q) = 1
+Threrror-free = 1/(Tpkt + RTT) = 1/(15*8*2/60 + 4*2.2+0.1) = 1/12.9
+Estimated Thrwith errors (msg/sec):
+Thr = Threrror-free/Nr = 1/12.9/1 = 0.078
+
+For NETc with corrupt probablity q = 0.5;
+Nr = 1/(1 − q) = 2
+Threrror-free = 1/(Tpkt + RTT) = 1/(6*8*2/60 + 4*2.2+0.3) = 1/10.7
+Estimated Thrwith errors (msg/sec):
+Thr = Threrror-free/Nr = 1/10.7/2 = 0.047
+
+For NETd with corrupt probablity q = 0.75;
+Nr = 1/(1 − q) = 4
+Threrror-free = 1/(Tpkt + RTT) = 1/(6*8*2/60 + 4*2.2+0.3) = 1/10.7
+Estimated Thrwith errors (msg/sec):
+Thr = Threrror-free/Nr = 1/10.7/4 = 0.023
