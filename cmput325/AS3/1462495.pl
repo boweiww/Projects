@@ -33,7 +33,8 @@ Note that L may be empty, in which case R should be empty too. */
 xappend([], L, L).
 % xappend([H|T],L,[H|R]):- xappend(T,L,R).
 
-
+ %new is bad 
+ 
 swap(L1,S3):- write(L1),swap(L1,[],[],S3).
 swap([Ahead|Atail],Accum,S2,S3):- S2 == [],swap(Atail,Accum,[Ahead],S3).
 swap([Ahead|Atail],Accum,S2,S3):- write(S2),S2 \== [],write("good"),append([Ahead],S2,A1),write(A1),write(Accum),xappend(Accum,A1,newAccum),write(newAccum),swap(Atail,newAccum,[],S3).
@@ -54,10 +55,13 @@ largest([Ahead|Atail],S2,S3):- number(Ahead),Ahead =< S3,largest(Atail,S2,S3).
 largest([Ahead|Atail],S2,S3):- \+number(Ahead),largest(Ahead,S4,S3),largest(Atail,S2,S4).
 largest([],S2,S2).
 
-/*Define a predicate countAll(+L,-N)
+/*question 4
+Define a predicate countAll(+L,-N)
 such that given a flat list L of atoms, the number of occurrences of every atom is counted. Thus, N should be a list of pairs [a,n] representing that atom a occurs in L n times. These pairs should appear in a non-increasing order. E.g.
 ?- countAll([a,b,e,c,c,b],N). N = [[b,2],[c 2],[a,1],[e,1]]
-For atoms with the same account, the order is unimportant. */
+For atoms with the same account, the order is unimportant.
+notice that the variable can not be defined as newxxxxx  
+ */
 
 countmember(A,[B|S1]):- nextmember(A,B,S1).
 nextmember(A,[B|_],S1):- A \== B, countmember(A,S1).
@@ -67,10 +71,41 @@ countnotmember(_,[]).
 countnotmember(A,[B|L]):- nextnotmember(A,B,L).
 nextnotmember(A,[B|_],L):- A\==B,countnotmember(A,L).
 
-countadd(A,B):- countadd(A,[],B).
-countadd(A,[C|L1],[B|L]):- A == C, L1
+countadd(A,B,C):- countadd(A,[],B,C).
+countadd(_,S2,[],S2).
+countadd(S1,S2,[B|L],S5):- nextadd(S1,S2,B,L,S5).
+nextadd(S1,S2,[B|L],S4,S5):- S1 == B,L1 is L + 1,append(S2,[[B,L1]],Ilovejk),countadd(S1,Ilovejk,S4,S5).
+nextadd(S1,S2,[B|L],S4,S5):- S1 \== B,L1 is L + 0,append(S2,[[B,L1]],Ilovejk),countadd(S1,Ilovejk,S4,S5).
+
+xreverse(L, R) :- xreverse(L, R, []).
+xreverse([], R, R).
+xreverse([Ahead|Atail], R, Accum) :- xreverse(Atail, R, [Ahead|Accum]).
+
+rev([],[]).
+rev([[Number, Letter]|T], [[Letter, Number]|T1]):-rev(T,T1).
+get_order_successors(L,S2):- rev(L,L1),sort(L1,L2),rev(L2,L3),xreverse(L3,S2).
+
 
 countAll(S1,S2):- countAll(S1,[],S2).
-countAll([Ahead|Atail],Accum,S2):- countnotmember(Ahead,Accum),append(Accum,[Ahead,1],OutList),countAll(Atail,OutList,S2).
-countAll([Ahead|Atail],Accum,S2):- countmember(Ahead,Accum),countAll(Atail,Accum,S2).
-countAll([],Accum,_,Accum).
+countAll([Ahead|Atail],Accum,S2):- countmember(Ahead,Accum),countadd(Ahead,Accum,Ilovejk),countAll(Atail,Ilovejk,S2).
+countAll([Ahead|Atail],Accum,S2):- countnotmember(Ahead,Accum),append(Accum,[[Ahead,1]],OutList),countAll(Atail,OutList,S2).
+countAll([],Accum,S2):- get_order_successors(Accum,S2).
+
+/*quetion 5
+Define a predicate
+sub(+L,+S,-L1)
+where L is a possibly nested list of atoms, S is a list of pairs in the form [[x1,e1],...,[xn,en]], and L1 is the same as L except that any occurrence of xi is replaced by ei. Assume xi's are atoms and ei's are arbitrary expressions. E.g.
+?- sub([a,[a,d],[e,a]],[[a,2]],L).  L= [2,[2,d],[e,2]]. */
+
+
+xsub(S1,[Ahead|Atail],S3):- xsub(S1,Ahead,Atail,[],S3).
+xsub([],_,_,S4,S4).
+xsub([Ahead|Atail],S5,S6,S0,S4):- atomic(Ahead),Ahead == S5,append(S0,S6,S2),xsub(Atail,S5,S6,S2,S4).
+xsub([Ahead|Atail],S5,S6,S0,S4):- atomic(Ahead),Ahead \== S5,append(S0,[Ahead],S2),xsub(Atail,S5,S6,S2,S4).
+xsub([Ahead|Atail],S5,S6,S0,S4):- \+atomic(Ahead),xsub(Ahead,S5,S6,[],S14),append(S0,[S14],S2),xsub(Atail,S5,S6,S2,S4).
+
+
+
+
+sub(S1,[Ahead|Atail],S3):- xsub(S1,Ahead,S0),sub(S0,Atail,S3).
+sub(S0,[],S0).
