@@ -2,99 +2,37 @@
 #include <netdb.h>
 #include <strings.h>
 #include <ncurses.h>
-#include <sys/select.h>
 
 static int sock;    // socket to server
-static int action; // action this client will take on the next update
+static char action; // action this client will take on the next update
 static int dim;
 
-// mutex for modifying action or player position (since these are generally checked at the same time)
+pthread_t inputThreadID;
+pthread_t serverThreadID;
+
+// mutex for modifying action as it is the only common thing between threads
 static pthread_mutex_t mutex; 
 
 static int our_ID = -1;
 
+static int last_score = 0;
+static int exit_soon = FALSE;
 
 // Terminate this client
-// TODO should message server to let it know we are disconnecting - or can the server figure that out itself?
-// TODO should print out score
+// generally we call this through sending a interrupt signal
+// 
 void terminate(){
-    printf("Terminating client.\n");
     close(sock);  // close socket to server
     endwin();     // end ncurses window
+    printf("Your final score was: %d\n", last_score);
     exit(0);
 }
 
-// Print out the shots
-void print_shots(int x, int y, int facing){
-/*
-    int x_change=0, y_change=0;
-    
-    switch(facing){
-        case(UP):
-            y_change=-1;
-            break;
-        case(DOWN):
-            y_change=1;
-            break;
-        case(LEFT):
-            x_change=-1;
-            break;
-        case(RIGHT):
-            x_change=1;
-            break;
-    }
-
-    int new_y = y;
-    int new_x = x;
-    for (int i = 0; i < 2; ++i) {
-        new_y += y_change;
-        new_x += x_change;
-        
-        // Make sure shots can't go over the board
-        if(new_x >= 1 && new_x <= dim && new_y >= 1 && new_x <= dim) {
-            mvaddch(new_y, new_x, 'o');
-        }
-    }
-*/
+void catch_interrupt(){
+    terminate();
 }
 
 void print_player(struct player *curr) {
-    if (curr->action == SHOOT){
-        switch(curr->facing) {
-        case(UP):
-            if(curr->y > 1) {
-                mvprintw(curr->y - 1,curr->x,"O");
-            }
-            if(curr->y > 2) {
-                mvprintw(curr->y - 2,curr->x,"O");
-            }
-            break;
-        case(DOWN):
-            if(curr->y < dim) {
-                mvprintw(curr->y + 1,curr->x,"O");
-            }
-            if(curr->y < dim-1){
-                mvprintw(curr->y + 2,curr->x,"O");
-            }
-            break;
-        case(LEFT):
-            if(curr->x > 1) {
-                mvprintw(curr->y,curr->x - 1,"O");
-            }
-            if(curr->x > 2) {
-                mvprintw(curr->y,curr->x - 2,"O");
-            }
-            break;
-        case(RIGHT):
-            if(curr->x < dim ) {
-                mvprintw(curr->y,curr->x + 1,"O");
-            }
-            if(curr->x < dim - 1) {
-                mvprintw(curr->y,curr->x + 2,"O");
-            }
-            break;
-        }
-    }
     switch(curr->facing){
         case(NONE):
             break;
@@ -114,7 +52,45 @@ void print_player(struct player *curr) {
             perror("Error printing the players\n");
             terminate();
     }
+}
 
+void print_shots(struct player *curr){
+    if (curr->action == SHOOT){
+        switch(curr->facing) {
+        case(UP):
+            if(curr->y > 1) {
+                mvprintw(curr->y - 1,curr->x,"o");
+            }
+            if(curr->y > 2) {
+                mvprintw(curr->y - 2,curr->x,"o");
+            }
+            break;
+        case(DOWN):
+            if(curr->y < dim) {
+                mvprintw(curr->y + 1,curr->x,"o");
+            }
+            if(curr->y < dim-1){
+                mvprintw(curr->y + 2,curr->x,"o");
+            }
+            break;
+        case(LEFT):
+            if(curr->x > 1) {
+                mvprintw(curr->y,curr->x - 1,"o");
+            }
+            if(curr->x > 2) {
+                mvprintw(curr->y,curr->x - 2,"o");
+            }
+            break;
+        case(RIGHT):
+            if(curr->x < dim ) {
+                mvprintw(curr->y,curr->x + 1,"o");
+            }
+            if(curr->x < dim - 1) {
+                mvprintw(curr->y,curr->x + 2,"o");
+            }
+            break;
+        }
+    }
 }
 
 /*
@@ -160,16 +136,13 @@ void print_board(int num_players, struct player *player_array){
         mvprintw(i,0,"%s\n",blank_line);
     }
     
-    // TODO shots
-
-    
-    printf("our_ID: %d\n",our_ID);
     // Then, print players on the board
     // bold the character that represents ourselves
     for (int i = 0; i < num_players; ++i) {
         struct player *curr = &player_array[i];
         
         if(our_ID == curr->ID) {
+            last_score = curr->score;
             attron(A_BOLD);
         }
 
@@ -179,9 +152,69 @@ void print_board(int num_players, struct player *player_array){
             attroff(A_BOLD);
         }
     }
+    // print attacks so they appear with higher priority than players (since they are getting destroyed by the shots)
+    for (int i = 0; i < num_players; ++i) {
+        struct player *curr = &player_array[i];
+        
+        if(our_ID == curr->ID) {
+            last_score = curr->score;
+            attron(A_BOLD);
+        }
+
+        print_shots(curr);
+
+        if(our_ID == curr->ID) {
+            attroff(A_BOLD);
+        }
+    }
 
     // After drawing, refresh the ncurses window to display results
     refresh();
+}
+
+void get_update() {
+    // first server tells us how big the player array is
+    int num_players = -1;
+    int result = recv(sock, &num_players, sizeof(num_players), 0);
+    if (result < 0){
+        perror("An error occured getting number of players from server.\n");
+        terminate();
+    }
+
+    // -1 means we died
+    if (num_players == -1) {
+        pthread_mutex_lock(&mutex);
+        pthread_cancel(inputThreadID);
+        pthread_mutex_unlock(&mutex);
+
+        int message = -1;
+        // we're exiting soon so not sure what it'd do if this failed
+        send(sock, &message, sizeof(message), 0);  
+
+        exit_soon = TRUE;
+        return;
+   
+    }
+
+    // make sure we can store all the info
+    struct player player_array[num_players*sizeof(struct player)];
+            
+    // Read in information about all player's positions
+    for (int i = 0; i < num_players; ++i) {
+        result = recv(sock, &player_array[i], sizeof(struct player), 0);
+        if (result < 0){
+            perror("An error occured getting player positions from server.\n");
+            terminate();
+        }
+    }
+
+    pthread_mutex_lock(&mutex);
+    // reset action for next update
+    action = NONE;
+    pthread_mutex_unlock(&mutex);
+
+    // Print the new state of the board
+    print_board(num_players, player_array);
 }
 
 // Waits for server to send a message
@@ -195,61 +228,13 @@ void listen_server(fd_set readset) {
     if (result > 0) {
         if (FD_ISSET(sock, &readset)) {
             // There is data to read            
-            // first server tells us how big the player array is
-            // TODO check result here and in the loop
-            int num_players = -1;
-            result = recv(sock, &num_players, sizeof(num_players), 0);
-            if (num_players == -1){
-                
-                //destroyed
-                terminate();
-            }
-
-            // make sure we can store all the info
-            struct player player_array[num_players*sizeof(struct player)];
-            
-            // Read in information about all player's positions
-            for (int i = 0; i < num_players; ++i) {
-                result = recv(sock, &player_array[i], sizeof(struct player), 0);
-            }
-
-             // reset action for next update
-
-            // Print the new state of the board
-            print_board(num_players, player_array);
-            action = NONE;
+            get_update();
         }
     } 
     else { 
         perror("An error occured listening to server.\n");
         terminate();
     }
-
-    /*
-    int result,tempaction ;
-    //fd_set readset;
-    struct timeval tv;
-    FD_ZERO(&readset);
-    FD_SET(sock, &readset);
-    tv.tv_sec = 2;
-    tv.tv_usec = 50;
-    
-    result = select(sock + 1, &readset, NULL, NULL, &tv);
-    if (result > 0) {
-        result = recv(sock, &tempaction, sizeof(struct player), 0);
-        if (tempaction != ' '){
-            action = tempaction;
-            printf("I Got IT\n");
-            
-            if (result == 0) {
-                
-                close(sock);
-                //exit, should be removed when two client is added.
-                exit(1);
-            }
-        }
-    }
-*/
 }
 
 
@@ -260,7 +245,7 @@ void * listen_server_loop() {
     FD_ZERO(&readset);
     FD_SET(sock, &readset);
 
-    while(TRUE){
+    while(!exit_soon){
         listen_server(readset);        
     }
 }
@@ -272,52 +257,56 @@ void * listen_server_loop() {
    "No more than one command per client will be handled by the server in each update period"
 */
 void read_input() {
-    char ch = getch();
-    pthread_mutex_lock(&mutex);
-    switch(ch) {
-        // terminate
-        // If terminate is called, mutex will stay locked. This is fine because the program is terminating anyway, right?
-        case 'x':
-            terminate();
-            break;
+        char ch = getch();
+        pthread_mutex_lock(&mutex);
+        switch(ch) {
+            // terminate
+            case 'x':
+                endwin();
+                printf("Waiting for final game update...\n");
+                exit_soon = TRUE; // try to exit ASAP
+                break;
 
-        // move up
-        case 'i':   
-            action = UP;
-            break;
+            // move up
+            case 'i':   
+                action = UP;
+                break;
 
-        // move down
-        case 'k':
-            action = DOWN;
-            break;
+            // move down
+            case 'k':
+                action = DOWN;
+                break;
 
-        // move left
-        case 'j':
-            action = LEFT;
-            break;
+            // move left
+            case 'j':
+                action = LEFT;
+                break;
 
-        // move right
-        case 'l':   
-            action = RIGHT; 
-            break;
+            // move right
+            case 'l':   
+                action = RIGHT; 
+                break;
             
-        // shoot
-        case ' ':
-            action = SHOOT;  
-            break;
-    }
-    pthread_mutex_unlock(&mutex);
+            // shoot
+            case ' ':
+                action = SHOOT;  
+                break;
+        }
+        pthread_mutex_unlock(&mutex);
 
-    // send action to server
-    send(sock, &action, 10, 0);
-    
+        // send action to server
+        int result = send(sock, &action, sizeof(action), 0);
+        if (result < 0) {
+            perror("An error occured while sending action to server");
+            terminate();
+        }  
 }
 
 // calls read_input forever
 // should be safer and more efficient than calling self recursively
 void * read_input_loop() {
     
-    while(TRUE) {
+    while(!exit_soon) {
         read_input();
     }
 }
@@ -362,7 +351,7 @@ int main (int argc, char *argv[]) {
     }
 
     /////////////////
-    printf("Attempting to connect to host '%s' at port '%d'...\n", hostname, port);
+    //printf("Attempting to connect to host '%s' at port '%d'...\n", hostname, port);
     
     struct hostent *host;
     host = gethostbyname (hostname);
@@ -380,8 +369,9 @@ int main (int argc, char *argv[]) {
     // catch iterrupts to gracefully terminate
     struct sigaction terminate_action;
     terminate_action.sa_flags = 0;
-    terminate_action.sa_handler = terminate;
+    terminate_action.sa_handler = catch_interrupt;
     sigaction(SIGINT, &terminate_action, NULL);
+
 
     struct sockaddr_in server;
     bzero (&server, sizeof (server));
@@ -392,40 +382,33 @@ int main (int argc, char *argv[]) {
         perror ("Client: cannot connect to server");
         exit (1);
     }
-	
+
     // get dimensions of the board
-    recv(sock,&dim,4,0);
-    printf("dim: %d\n",dim);
+    int result = recv(sock,&dim,4,0);
+    if (result < 0){
+        perror("An error occured getting board dimensions from server.\n");
+        exit(-1);
+    }
+    if (dim == -1) {
+        printf("Server already has the maximum number of players.\n");
+        exit(-1);
+    }
 
     // get our unique player ID
-    recv(sock,&our_ID,sizeof(our_ID),0);
-    printf("ID: %d\n",our_ID);
+    result = recv(sock,&our_ID,sizeof(our_ID),0);
+    if (result < 0){
+        perror("An error occured getting player ID from server.\n");
+        exit(-1);
+    }
 
     // Initiate ncurses user interface
     initscr();
     cbreak(); 
     noecho();
+    curs_set(0);
 
-    /*
-         TODO this is copy-pasted out of listen server, so this part should probably 
-     be broken into a function
-    */
-    ///////
-    // first server tells us how big the player array is
-    // TODO check result here and in the loop
-    int num_players = -1;
-    int result = recv(sock, &num_players, sizeof(num_players), 0);
-
-    // make sure we can store all the info
-    struct player player_array[num_players*sizeof(struct player)];
-            
-    // Read in information about all player's positions
-    for (int i = 0; i < num_players; ++i) {
-        result = recv(sock, &player_array[i], sizeof(struct player), 0);
-    }
-
-    print_board(num_players, player_array);
-    ///////
+    // get and print initial state
+    get_update();
 
     /////////////////
     // Initalize mutex
@@ -433,17 +416,14 @@ int main (int argc, char *argv[]) {
 
     // start input thread
     // gets input from keyboard
-    pthread_t inputThreadID;
     pthread_create(&inputThreadID, NULL, read_input_loop, NULL);
 
     // start server thread
     // listens the server socket for position updates
-    pthread_t serverThreadID;
     pthread_create(&serverThreadID, NULL, listen_server_loop, NULL);
 
-    while(TRUE) {
-
-    }
-    
+    pthread_join(inputThreadID, NULL);  
+      
+    terminate();
 }
 

@@ -1,0 +1,119 @@
+; Bowei Wang 1462495
+;cmput325 assignment 2
+
+
+;check the name of the function 
+(defun check_func_name (x y)
+  (cond 
+  	((eq x (caar y)) (car y))
+        ((null y) nil)
+	(t (check_func_name x (cdr y)))
+  )
+)
+
+;function in assignment 1 to check member
+(defun xmember  (X Y)
+	(cond 		
+		((equal Y nil) nil)
+		((null Y) nil)
+		((equal (car Y) X) T)
+		(t (xmember X (cdr Y)))
+                )
+        
+)
+
+;function in assignment 1 to flatten list
+(defun flatten (x)
+    (cond
+        ((null x) x)
+        ((atom (car x)) (cons (car x) (flatten (cdr x))))
+        (t (append (flatten (car x)) (flatten (cdr x))))
+    )
+)
+
+;function that takes replace the variables in E
+;x is the name of argument, y is corresponding value
+(defun e_replace (x y E P)
+  (cond
+  	((null E) nil)
+        ((atom (car E)) (if (eq x (car E))  (cons   (fl-interp y P) (e_replace x y (cdr E) P)) (cons   (fl-interp (car E) P)  (e_replace x y (cdr E) P))))
+	
+	(t (cons (e_replace x y (car E) P)  (e_replace x y (cdr E) P)))
+  )
+)
+
+;function defined to check whether EL has the name in PL
+(defun exist_def (EL PL)
+  (cond
+        ((null EL) nil)
+        ((xmember (car EL) PL) T)
+        (t (exist_def (cdr EL) PL))))
+
+
+;function to check userdefine functions that not yet been transfered
+(defun check_loop (E P)
+  (cond
+        ((null E) nil)
+        ((xmember (car E) (name_list P)) (handle_user_def E P))
+        ((atom (car E)) (cons (car E) (check_loop (cdr E) P)))
+        (t (cons (check_loop (car E) P) (check_loop (cdr E) P)))))
+
+;function to put element in x and y one by one into function e_replace to repalce the 
+;corresponding variable in L
+(defun putin_value(x L y P)
+  (cond 
+        ((null x) L)
+        (t (putin_value (cdr x) (e_replace (car x) (car y) L P) (cdr y) P))))
+
+;this function is defined to handle user define case
+(defun handle_user_def (E P)
+  (if (not( exist_def (flatten E) (name_list P))) (fl-interP E nil)  
+     (let((cur_function (check_func_name (car E) P)))
+        (let ((func (putin_value (cadr cur_function) (cadddr cur_function) (cdr E) P)))
+                                 (handle_user_def func P)))))
+
+
+(defun fl-interp (E P)
+  (cond 
+	((atom E) E)  ; %this includes the case where E is nil or a number
+        (t
+           (let ( (f (car E))  (arg (cdr E)) )
+	      (cond 
+                ; handle built-in functions
+							
+               
+                ((eq f 'first)  (car (fl-interp (car arg) P)))
+		((eq f 'rest)  (cdr (fl-interp  (car arg) P)))
+		((eq f 'atom) (atom (fl-interp (car arg) P)))
+		((eq f 'null) (null (fl-interp (car arg) P)))
+		((eq f 'eq) (eq (fl-interp (car arg) P) (fl-interp (cadr arg) P)))
+		((eq f 'equal) (equal (fl-interp (car arg) P) (fl-interp (cadr arg) P)))
+		((eq f 'numberp) (numberp(fl-interp (car arg) P)))
+		((eq f 'append) (append (fl-interp (car arg) P) (fl-interp (cadr arg) P)))
+		((eq f 'car)  (car (fl-interp (car arg) P)))
+		((eq f 'cdr) (cdr (fl-interp  (car arg) P)))
+		((eq f 'cons) (cons (fl-interp (car arg) P) (fl-interp (cadr arg) P)))
+		((eq f 'if) (if (fl-interp (car arg) P) (fl-interp (cadr arg) P) (fl-interp (caddr arg) P)))
+		((eq f 'cond) (if (fl-interp (caar arg) P) (fl-interp (cadar arg) P) (fl-interp (cons f (cdr arg)) P)))
+		((eq f 'let) (let (fl-interp (car arg) P) (fl-interp (cadr arg) P)))
+		((eq f 'let*) (let* (fl-interp (car arg) P) (fl-interp (cadr arg) P)))
+
+		((eq f 'mapcar) (mapcar (fl-interp (car arg) P) (fl-interp (cadr arg) P)))
+		((eq f 'reduce) (reduce(fl-interp (car arg) P) (fl-interp (cadr arg) P)))
+		((eq f 'number) (numberp(fl-interp (car arg) P)))
+		((eq f '+) (+ (fl-interp (car arg) P) (fl-interp (cadr arg) P)))
+		((eq f '-) (- (fl-interp (car arg) P) (fl-interp (cadr arg) P)))
+		((eq f '*) (* (fl-interp (car arg) P) (fl-interp (cadr arg) P)))
+		((eq f '>) (> (fl-interp (car arg) P) (fl-interp (cadr arg) P)))
+		((eq f '<) (< (fl-interp (car arg) P) (fl-interp (cadr arg) P)))
+		((eq f '=) (= (fl-interp (car arg) P) (fl-interp (cadr arg) P)))
+		((eq f 'and) (if (fl-interp (car arg) P) (if
+                                                             (fl-interp (cadr arg) P) T nil) nil))
+                
+		((eq f 'or)  (if (fl-interp (car arg) P) T (if  
+                                                               (fl-interp (cadr arg) P) T  nil)))
+		((eq f 'not) (not (fl-interp (car arg) P)))
+                ;handle unregular situations
+		((null P) E)
+                ;handle user define functions
+		(t (handle_user_def E P)))))))
