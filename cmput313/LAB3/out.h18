@@ -1,0 +1,14 @@
+shutdown:  --------------------
+shutdown:  h18: Node statistics (time= 29,999,983, nEvents= 42260, nErrors= 0)
+shutdown:  h18: msgs generated= 587, msgs received= 593 
+
+shutdown:  --------------------
+shutdown:  h18: Link (= 1) statistics (time= 29,999,983)
+shutdown:  h18: tx_frames= 586, rx_frames= 10838 
+shutdown:  h18: rx_frames_corrupted= 0, rx_frames_collisions= 0 
+
+shutdown:  --------------------
+shutdown:  h18: LANC statistics (time= 29,999,983)
+shutdown:  h18: tx_frames= 587, success_frames= 586, dropped_frames= 0 
+shutdown:  h18: rx_frames= 593 
+
