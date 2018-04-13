@@ -103,6 +103,7 @@ static EVENT_HANDLER(physical_ready)
     int		outLink= 1;
     len         = sizeof(FRAME);
     CHECK(CNET_read_physical(&link, &f, &len));
+    //if current node is not host, directly
     if (nodeinfo.nodetype != NT_HOST){
         outLink= (link == 1)? nodeinfo.nlinks : 1;
         CHECK ( CNET_write_physical (outLink, &f, &len) );
