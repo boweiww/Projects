@@ -88,7 +88,7 @@ t5 :- ['Q3tests/t5'].*/
 
 
 % setUnion function from AS3
-use_module(library(clpfd)).
+:- use_module(library(clpfd)).
 
 
 member(A,[A|_]).
@@ -128,24 +128,64 @@ gcount(S0,S1):- gcount(S0,S1,[]).
 gcount([Ahead|Atail],S1,S2):- print("good"),count(Ahead,S3),append(S2,[S3],S4),print(S4),gcount(Atail,S1,S4).
 gcount([],S1,S1).
 
+%S0 is the first element of name, S1 is number, S2 is list, S3 is return.
 
-%handtable(S0,S1,S2,S3):- 
+handtable(S0,S1,[Ahead|Atail],S3):- nth0(0,Ahead,S4),S4 == S1,handtable(Ahead,S0,S5),append([S5],Atail,S3).
+handtable(S0,S1,[Ahead|Atail],S3):- nth0(0,Ahead,S4),S4 \== S1,handtable(S0,S1,Atail,S5),append([Ahead],S5,S3).
+
+handtable([Ahead|[]],S1,S2):- append(Ahead,S1,S2).
+handtable([Ahead|Atail],S1,S2):- handtable(Atail,S1,S4),append([Ahead],[S4],S2).
 
 %S0 is the number of table 
 motable(S0,S1):- motable(S0,S1,[]).
-motable(S0,S1,S1):- S0 =< 0.
-motable(S0,S1,S2):- print(S0),S3 is S0 - 1, append(S2,[[]],S4),motable(S3,S1,S4).
+%motable(S0,S1,S1):- S0 =< 0.
+motable(S0,S1,S2):- S3 is S0 - 1, S3 > 0,append([[S0,[]]],S2,S4),motable(S3,S1,S4).
+motable(S0,S1,S2):- S3 is S0 - 1, S3 =< 0,append([[S0,[]]],S2,S1).
+
+
 
 %S0 is return value,S1 is total number of seat,S2 is table set,S3 is the set of guest
-arrange(S0,S1,S2,S3):- count(S3,S5),count(S2,S6),length(L,S5),print(S6),L ins 1..S6,motable(S6,S7).%arrange(S0,S1,S3,S7,L).
+arrange(S0,S1,S2,S3):- count(S3,S5),count(S2,S6),length(L,S5),print(S6),L ins 1..S6,label(L),motable(S6,S7),arrange(S0,S1,S3,S7,L).
 
-%S0 is return value,S1 is seat num,S2 is guest, S3 is [[]], S4 is L.
-%arrange(S0,S1,[A2head|A2tail],S3,[A4head|A4tail]):- handtable(A2head,A4head,S3,S4),
+%S0 is return value,S1 is seat num,S2 is guest, S3 is [A,[]], S4 is L.
+arrange(S0,S1,[A2head|A2tail],S3,[A4head|A4tail]):- handtable(A2head,A4head,S3,S5),arrange(S0,S1,A2tail,S5,A4tail).
+arrange(S0,_,[],S0,[]).
 
-q(Vs) :- Vs = [_,_,_,_],
-	 global_cardinality(Vs, [1-2,3-_]), label(Vs).
+gsize([Ahead|[]],S0):- count(Ahead,S2),S2 =< S0.
+gsize([_|Atail],S0):- gsize(Atail,S0).
+
+%S0 is list,S1 is seat number,S2 is return.
+
+tablesize([Ahead|Atail],S1):- gsize(Ahead,S1),tablesize(Atail,S1).
+tablesize([],_).
+%tablesize([Ahead|Atail],S1,S2):- not(gsize(Ahead,S1)),tablesize(Atail,S1,S3),append(Ahead,Atail,S2).
+
 
 %arrange(S0,S1,[A2head|A2tail],[A3head|A3tail],S4):- count(A3head,N1),N1 =< S1,append([A2head],[A3head],S5).
 
 seating(P,S0):- seating(P,S0,[]).
-seating(S0,S1,_):- gtable(S3),gguest(S4),handseat(S5,S4),arrange(S0,S1,S3,S5).
+seating(S0,S1,_):- gtable(S3),gguest(S4),handseat(S5,S4),arrange(S0,S1,S3,S5),tablesize(S0,S1) .   %print(S0),print(S1),print(S3),print(S5).  %   
+
+
+
+
+
+    /*
+    q(Vs) :- Vs = [_,_,_,_],
+	 global_cardinality(Vs, [1-2,3-_]), label(Vs).
+    select(L,LL) :- 
+   length(L,N), length(LL,N),
+   LL ins 0..3, label(LL),
+   assoc(L,LL,R), % suppose you want to see the list of pairs
+   print(R).      % relating L and LL
+
+assoc([],[],[]).
+assoc([A|L],[B|LL],[[A,B]|R]) :-
+    assoc(L,LL,R).
+
+I = [a,b,c,d,e], length(I,N), length(L,N), L ins 1..5, cond(L,L1), sum(L1,#=,R), label(L).
+
+
+length(L, 4), L ins 1..5, label(L). 
+        use_module(library(clpfd)).
+    */
