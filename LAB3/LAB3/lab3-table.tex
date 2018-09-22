@@ -1,0 +1,49 @@
+\documentclass[12pt]{article}
+
+\usepackage{times}
+\usepackage{epsfig,graphicx,fancybox}
+\usepackage{fancyhdr}
+
+\setlength{\textwidth}{6.5in}
+\setlength{\textheight}{9in}
+\setlength{\topmargin}{-.5in}
+\setlength{\oddsidemargin}{0.0in}
+\setlength{\evensidemargin}{0.0in}
+
+
+\begin{document}
+%------------------------------
+
+\begin{center}
+%\small
+\footnotesize
+\begin{tabular}{|l || p{0.6in}|p{0.6in}|p{0.6in} || p{0.6in}|p{0.6in}|p{0.6in}|p{0.6in} |}
+\hline
+Network	&\multicolumn{3}{c||}{Global Statistics}
+	&\multicolumn{4}{c|}{Protocol Statistics (for the first node)} \\
+	\cline{2-8}
+	&Messages generated
+	&Messages delivered
+	&Frame collisions
+	&tx\_frames
+	&success frames
+	&dropped frames
+	&rx\_frames \\
+\hline \hline
+LAN-5    &$\ 2941$ &$\ 2941$ &$\ 0$
+	 &$\ 571$ &$\ 571$ &$\ 0$ &$\ 563$ \\
+\hline
+LAN-10    &$\ 5891$ &$\ 5891$ &$\ 0$
+	  &$\ 609$ &$\ 609$ &$\ 0$ &$\ 613$\\
+\hline
+LAN-15    &$\ 8638$ &$\ 8637$ &$\ 0$
+	  &$\ 583$ &$\ 583$ &$\ 0$ &$\ 597$\\
+\hline
+LAN-20    &$\ 11426$ &$\ 11424$ &$\ 0$
+	  &$\ 541$ &$\ 541$ &$\ 0$ &$\ 564$\\
+\hline
+\end{tabular}
+\end{center}
+\normalsize
+%------------------------------
+\end{document}

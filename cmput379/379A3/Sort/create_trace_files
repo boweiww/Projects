@@ -1,0 +1,3 @@
+valgrind --tool=lackey --trace-mem=yes --log-file=quicksort_trace.txt quicksort
+valgrind --tool=lackey --trace-mem=yes --log-file=mergesort_trace.txt mergesort
+valgrind --tool=lackey --trace-mem=yes --log-file=heapsort_trace.txt heapsort

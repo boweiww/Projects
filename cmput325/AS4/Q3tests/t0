@@ -1,0 +1,30 @@
+table(1).
+table(2).
+
+guest(lily).
+guest(ken).
+guest(tony).
+guest(peter).
+
+like(lily,ken).    
+like(ken,tony).    
+dislike(tony,peter).    
+
+
+/*
+Test cases:
+
+?- seating(P,2).  no solution
+
+?- seating(P,3).  two solutions (simply switching the tables)
+
+[1,[lily,ken,tony]]  
+[2,[peter]]          
+
+
+[1,[peter]]
+[2,[lily,ken,tony]]
+
+*/
+
+

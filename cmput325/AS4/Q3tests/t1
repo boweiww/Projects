@@ -1,0 +1,23 @@
+table(1).
+table(2).
+
+guest(lily).
+guest(ken).
+guest(tony).
+guest(peter).
+guest(ann).
+
+like(lily,ken).    
+like(ken,tony).    
+dislike(tony,peter).    
+dislike(peter,ann).    
+
+/*
+
+No solution for either query: seating(P,2) or seating(P,3). 
+
+[lily,ken,tony] must be at the same table; 
+but peter and ann must sit at different tables.
+
+So, at least 3 tables are needed.
+*/

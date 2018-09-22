@@ -1,0 +1,33 @@
+table(1).
+table(2).
+table(3).
+
+guest(lily).
+guest(ken).
+guest(tony).
+guest(peter).
+guest(ann).
+guest(cryst).
+guest(jim).
+
+
+like(lily,ken).    
+like(tony,peter).    
+dislike(tony,ann).    
+dislike(ann,cryst).    
+dislike(tony,cryst).    
+
+/*
+
+?- seating(P,2).  % No solution (this starts taking some time to run).
+
+?- seating(P,3).  
+
+[1,[lily,ken,ann]]
+[2,[tony,peter,jim]]
+[3,[cryst]]
+
+......
+
+Many other solutions 
+*/

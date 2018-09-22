@@ -1,0 +1,32 @@
+table(1).
+table(2).
+table(3).
+
+guest(lily).
+guest(ken).
+guest(tony).
+guest(peter).
+guest(ann).
+
+like(lily,ken).    
+like(ken,tony).    
+dislike(tony,peter).    
+dislike(peter,ann).    
+
+/* 
+Same as test case in t1, except having one more tabel. 
+
+?- seating(P,2). 
+no
+
+?- seating(P,3). 
+
+[1,[lily,ken,tony]]
+[2,[peter]]
+[3,[ann]]
+
+P = [1,1,1,2,3] ? ;
+
+...
+
+*/
