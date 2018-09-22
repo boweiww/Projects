@@ -1,0 +1,26 @@
+Cmput 325 Quiz
+Bowei Wang
+1462495
+
+1.
+(λxy | xx(yy)) (λx | xy) (λx | x) 
+=(λx | xy)(λx | xy)((λx | x) (λx | x) )
+=(λx | xy)(λx | xy)((λx | x))
+=(λx | xy)y(λx | x)
+=yy(λx | x)
+
+2.
+(A) 
+IMP = (λxy | x(λmn|n)(λab|a)(λuv|u)y )
+(B)
+IMP T F = (L T F| TFTTF) = (L T F| FTF) = (L T F| F)
+IMP F T = (L F T| FFTTT) =  (L T F| T) 
+
+3.
+Result : 9
+Last context: (+ 4 5）
+(((lambda (x y) (lambda (z) (if (> x y) (+ x z) (+ x y)))) 4 5) 10)
+=((lambda (z) (if (> 4 5) (+ 4 z) (+ 4 5))) 10)
+=(if (> 4 5) (+ 4 10) (+ 4 5)))
+=(+ 4 5）
+=9
