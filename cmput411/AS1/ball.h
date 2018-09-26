@@ -1,11 +1,6 @@
 #ifndef BALL_H
 #define BALL_H
-
-//#include <OpenGL/gl.h>
-//
-//#include <OpenGl/glu.h>
-
-#include <GLUT/glut.h>
+#include <GL/glut.h>
 
 #include <iostream>
 #include <math.h>
@@ -71,17 +66,23 @@ public:
 				// case 3: the case is initially to the left of the paddle and is going right
 				// case 4: the ball is initially to the right of the paddle and is going left
 				// Add code below
-                if(locY <= pt and locX >= b.left() and locX <= b.right()){
+                if(locY <= pt and locY > b.top() and locX >= b.left() and locX <= b.right() and vY < 0){
                     vY = -vY;
+                    *score += 1;
                 }
-                else if(locY >= pb and locX >= b.left() and locX <= b.right()){
+                else if(locY >= pb and locY < b.bottom() and locX >= b.left() and locX <= b.right() and vY > 0){
                     vY = -vY;
+                    *score += 1;
+
                 }
-                else if(locX <= pr and locY >= b.bottom() and locY <= b.top()){
+                else if(locX <= pr and locX > b.right() and locY >= b.bottom() and locY <= b.top() and vX < 0){
                     vX = -vX;
+                    *score += 1;
                 }
-                else if(locX >= pl and locY >= b.bottom() and locY <= b.top()){
+                else if(locX >= pl and locX < b.left() and locY >= b.bottom() and locY <= b.top() and vX > 0){
                     vX = -vX;
+                    *score += 1;
+
                 }
 
 
@@ -105,16 +106,16 @@ public:
 				// case 3: the case is initially to the left of the right wall and is going right
 				// case 4: the ball is initially to the right of the left wall and is going left
 				// Add code below
-                if (locY >= pt){
+                if (locY >= pt and vY > 0){
                     vY = -vY;
                 }
-                if(locY <= pb){
+                if(locY <= pb and vY < 0){
                     vY = -vY;
                 }
-                if(locX >= pr){
+                if(locX >= pr and vX > 0){
                     vX = -vX;
                 }
-                if(locX <= pl){
+                if(locX <= pl and vX < 0){
                     vX = -vX;
                 }
 

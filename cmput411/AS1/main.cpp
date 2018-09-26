@@ -4,12 +4,13 @@
 
 
 
-#include <OpenGL/gl.h>
+//#include <OpenGL/gl.h>
+//
+//#include <OpenGl/glu.h>
+//
+//#include <GLUT/glut.h>
 
-#include <OpenGl/glu.h>
-
-#include <GLUT/glut.h>
-//#include <GL/freeglut.h>
+#include <GL/freeglut.h>
 #include "ball.h"
 #include "box.h"
 #include "block.h"
@@ -18,7 +19,7 @@ GLint screenSizeX = 400, screenSizeY = 600;	// screen size
 GLfloat radius = 10;						// radius of ball
 GLfloat updateTime = 10;
 GLfloat totalTime = 0;
-GLfloat maxTotalTime = 10000;
+GLfloat maxTotalTime = 1000000;
 GLint score = 0;
 char s[10];
 ball bouncingBall;
