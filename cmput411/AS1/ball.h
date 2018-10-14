@@ -66,20 +66,20 @@ public:
 				// case 3: the case is initially to the left of the paddle and is going right
 				// case 4: the ball is initially to the right of the paddle and is going left
 				// Add code below
-                if(locY <= pt and locY > b.top() and locX >= b.left() and locX <= b.right() and vY < 0){
+                if(locY <= pt && locY > b.top() && locX >= b.left() && locX <= b.right() && vY < 0){
                     vY = -vY;
                     *score += 1;
                 }
-                else if(locY >= pb and locY < b.bottom() and locX >= b.left() and locX <= b.right() and vY > 0){
+                else if(locY >= pb && locY < b.bottom() && locX >= b.left() && locX <= b.right() && vY > 0){
                     vY = -vY;
                     *score += 1;
 
                 }
-                else if(locX <= pr and locX > b.right() and locY >= b.bottom() and locY <= b.top() and vX < 0){
+                else if(locX <= pr && locX > b.right() && locY >= b.bottom() && locY <= b.top() && vX < 0){
                     vX = -vX;
                     *score += 1;
                 }
-                else if(locX >= pl and locX < b.left() and locY >= b.bottom() and locY <= b.top() and vX > 0){
+                else if(locX >= pl && locX < b.left() && locY >= b.bottom() && locY <= b.top() && vX > 0){
                     vX = -vX;
                     *score += 1;
 
@@ -106,16 +106,16 @@ public:
 				// case 3: the case is initially to the left of the right wall and is going right
 				// case 4: the ball is initially to the right of the left wall and is going left
 				// Add code below
-                if (locY >= pt and vY > 0){
+                if (locY >= pt && vY > 0){
                     vY = -vY;
                 }
-                if(locY <= pb and vY < 0){
+                if(locY <= pb && vY < 0){
                     vY = -vY;
                 }
-                if(locX >= pr and vX > 0){
+                if(locX >= pr && vX > 0){
                     vX = -vX;
                 }
-                if(locX <= pl and vX < 0){
+                if(locX <= pl && vX < 0){
                     vX = -vX;
                 }
 

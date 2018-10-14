@@ -1,0 +1,2 @@
+﻿MSVCRTD.lib(exe_winmain.obj) : error LNK2019: 无法解析的外部符号 _WinMain@16，该符号在函数 "int __cdecl invoke_main(void)" (?invoke_main@@YAHXZ) 中被引用
+H:\github\homeworks\cmput411\AS1\Debug\411AS1.exe : fatal error LNK1120: 1 个无法解析的外部命令

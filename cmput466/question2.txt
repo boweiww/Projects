@@ -1,0 +1,23 @@
+Bowei Wang cmput466 thought question 2:
+
+Q1,From ch5, linear regression:
+
+We know there is a linear regression method, but is there any method like "quadratic regression" to fitting quadratic distributions?
+
+possible answer: 
+1. There is something like "quadratic regression" to be used on curve fitting, the curve fitting based on linear regression and curve fitting is not precise enough.
+2. There is no "quadratic regression", with a good enough prior, we can make the transform good enough and the curve fitting works precisely.
+
+
+Q2, From ch6. Stochastic gradient descent:
+
+Is there any good method to make the SGD accept new data quicker?
+
+possible answer: Give new datas higher possibility of being chosen by the batch. This weight should keep decreasing as the epochs increases, at last, the possibility should be same as the old data.
+
+
+Q3, From ch7, the log normalizer:
+
+ Is the log normalizer works for all kinds of distributions or only for Poisson?
+
+possible answer:  the log normalizer may work for some other kinds of distributions but not all of them. There might be some complex distribution that made by multiple simple distributions, these kinds of distribution is hard to be normalized by this normalizer.

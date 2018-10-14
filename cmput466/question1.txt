@@ -1,0 +1,15 @@
+Bowei Wang 1462495
+
+Thought question 1
+
+1.Does any of the Gaussian distribution can be represented by a Gamma distribution?
+
+possible answer: Yes, Gamma distribution can represente all Gaussian distribution, there should be a shape in gamma distribution that is same as any gamma distribution.
+
+2. I have read an essay and is said mixture of Gaussian distribution "can be used to approximate arbitrarily close all continuous functions on a bounded set." I don't know whether it is correct.
+
+possible answer: I think it could be right, because if there is enough number of Gaussion distribution to be mixed, all the function can be represented.
+
+3.Does the gradient descent usually get the local optimum?
+
+possible answer:  The gradient descent indeed usually get the local optimum because the optimize process of GD is one way. Somehow, normal GD will be trapped in a local minimum, so there are some better method like stochastic gradient descent raised to solve global optimum questions.

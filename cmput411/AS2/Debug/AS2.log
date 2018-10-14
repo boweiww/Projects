@@ -1,0 +1,10 @@
+﻿  cissoid.cpp
+h:\github\homeworks\cmput411\as2\cissoid.cpp(52): warning C4305: “初始化”: 从“double”到“float”截断
+h:\github\homeworks\cmput411\as2\cissoid.cpp(77): warning C4305: “初始化”: 从“double”到“float”截断
+h:\github\homeworks\cmput411\as2\cissoid.cpp(97): warning C4244: “=”: 从“int”转换到“float”，可能丢失数据
+h:\github\homeworks\cmput411\as2\cissoid.cpp(98): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+h:\github\homeworks\cmput411\as2\cissoid.cpp(111): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+h:\github\homeworks\cmput411\as2\cissoid.cpp(112): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+h:\github\homeworks\cmput411\as2\cissoid.cpp(123): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+h:\github\homeworks\cmput411\as2\cissoid.cpp(124): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+  AS2.vcxproj -> H:\github\homeworks\cmput411\AS2\Debug\AS2.exe
