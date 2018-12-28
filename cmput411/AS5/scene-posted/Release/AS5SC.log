@@ -1,0 +1,18 @@
+﻿  scene.cpp
+LINK : warning LNK4075: ignoring '/INCREMENTAL' due to '/OPT:ICF' specification
+  sceneLib.lib(imageviewer.obj) : MSIL .netmodule or module compiled with /GL found; restarting link with /LTCG; add /LTCG to the link command line to improve linker performance
+LINK : warning LNK4075: ignoring '/INCREMENTAL' due to '/LTCG' specification
+  Generating code
+  Finished generating code
+sceneLib.lib(imageviewer.obj) : warning LNK4099: PDB 'sceneLib.pdb' was not found with 'sceneLib.lib(imageviewer.obj)' or at 'H:\github\homeworks\cmput411\AS5\scene-posted\Release\sceneLib.pdb'; linking object as if no debug info
+sceneLib.lib(color.obj) : warning LNK4099: PDB 'sceneLib.pdb' was not found with 'sceneLib.lib(color.obj)' or at 'H:\github\homeworks\cmput411\AS5\scene-posted\Release\sceneLib.pdb'; linking object as if no debug info
+sceneLib.lib(vector3.obj) : warning LNK4099: PDB 'sceneLib.pdb' was not found with 'sceneLib.lib(vector3.obj)' or at 'H:\github\homeworks\cmput411\AS5\scene-posted\Release\sceneLib.pdb'; linking object as if no debug info
+sceneLib.lib(ray.obj) : warning LNK4099: PDB 'sceneLib.pdb' was not found with 'sceneLib.lib(ray.obj)' or at 'H:\github\homeworks\cmput411\AS5\scene-posted\Release\sceneLib.pdb'; linking object as if no debug info
+sceneLib.lib(parser.obj) : warning LNK4099: PDB 'sceneLib.pdb' was not found with 'sceneLib.lib(parser.obj)' or at 'H:\github\homeworks\cmput411\AS5\scene-posted\Release\sceneLib.pdb'; linking object as if no debug info
+sceneLib.lib(camera.obj) : warning LNK4099: PDB 'sceneLib.pdb' was not found with 'sceneLib.lib(camera.obj)' or at 'H:\github\homeworks\cmput411\AS5\scene-posted\Release\sceneLib.pdb'; linking object as if no debug info
+sceneLib.lib(poly.obj) : warning LNK4099: PDB 'sceneLib.pdb' was not found with 'sceneLib.lib(poly.obj)' or at 'H:\github\homeworks\cmput411\AS5\scene-posted\Release\sceneLib.pdb'; linking object as if no debug info
+sceneLib.lib(disk.obj) : warning LNK4099: PDB 'sceneLib.pdb' was not found with 'sceneLib.lib(disk.obj)' or at 'H:\github\homeworks\cmput411\AS5\scene-posted\Release\sceneLib.pdb'; linking object as if no debug info
+sceneLib.lib(sphere.obj) : warning LNK4099: PDB 'sceneLib.pdb' was not found with 'sceneLib.lib(sphere.obj)' or at 'H:\github\homeworks\cmput411\AS5\scene-posted\Release\sceneLib.pdb'; linking object as if no debug info
+sceneLib.lib(cylinder.obj) : warning LNK4099: PDB 'sceneLib.pdb' was not found with 'sceneLib.lib(cylinder.obj)' or at 'H:\github\homeworks\cmput411\AS5\scene-posted\Release\sceneLib.pdb'; linking object as if no debug info
+sceneLib.lib(plucker.obj) : warning LNK4099: PDB 'sceneLib.pdb' was not found with 'sceneLib.lib(plucker.obj)' or at 'H:\github\homeworks\cmput411\AS5\scene-posted\Release\sceneLib.pdb'; linking object as if no debug info
+  AS5SC.vcxproj -> H:\github\homeworks\cmput411\AS5\scene-posted\Release\AS5SC.exe

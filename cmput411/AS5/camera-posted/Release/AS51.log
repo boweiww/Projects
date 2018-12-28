@@ -1,0 +1,18 @@
+﻿  camera.cpp
+LINK : warning LNK4075: ignoring '/INCREMENTAL' due to '/OPT:ICF' specification
+  cameraLib.lib(vector3.obj) : MSIL .netmodule or module compiled with /GL found; restarting link with /LTCG; add /LTCG to the link command line to improve linker performance
+LINK : warning LNK4075: ignoring '/INCREMENTAL' due to '/LTCG' specification
+  Generating code
+  Finished generating code
+cameraLib.lib(vector3.obj) : warning LNK4099: PDB 'cameraLib.pdb' was not found with 'cameraLib.lib(vector3.obj)' or at 'H:\github\homeworks\cmput411\AS5\camera-posted\Release\cameraLib.pdb'; linking object as if no debug info
+cameraLib.lib(imageviewer.obj) : warning LNK4099: PDB 'cameraLib.pdb' was not found with 'cameraLib.lib(imageviewer.obj)' or at 'H:\github\homeworks\cmput411\AS5\camera-posted\Release\cameraLib.pdb'; linking object as if no debug info
+cameraLib.lib(parser.obj) : warning LNK4099: PDB 'cameraLib.pdb' was not found with 'cameraLib.lib(parser.obj)' or at 'H:\github\homeworks\cmput411\AS5\camera-posted\Release\cameraLib.pdb'; linking object as if no debug info
+cameraLib.lib(color.obj) : warning LNK4099: PDB 'cameraLib.pdb' was not found with 'cameraLib.lib(color.obj)' or at 'H:\github\homeworks\cmput411\AS5\camera-posted\Release\cameraLib.pdb'; linking object as if no debug info
+cameraLib.lib(scene.obj) : warning LNK4099: PDB 'cameraLib.pdb' was not found with 'cameraLib.lib(scene.obj)' or at 'H:\github\homeworks\cmput411\AS5\camera-posted\Release\cameraLib.pdb'; linking object as if no debug info
+cameraLib.lib(poly.obj) : warning LNK4099: PDB 'cameraLib.pdb' was not found with 'cameraLib.lib(poly.obj)' or at 'H:\github\homeworks\cmput411\AS5\camera-posted\Release\cameraLib.pdb'; linking object as if no debug info
+cameraLib.lib(disk.obj) : warning LNK4099: PDB 'cameraLib.pdb' was not found with 'cameraLib.lib(disk.obj)' or at 'H:\github\homeworks\cmput411\AS5\camera-posted\Release\cameraLib.pdb'; linking object as if no debug info
+cameraLib.lib(sphere.obj) : warning LNK4099: PDB 'cameraLib.pdb' was not found with 'cameraLib.lib(sphere.obj)' or at 'H:\github\homeworks\cmput411\AS5\camera-posted\Release\cameraLib.pdb'; linking object as if no debug info
+cameraLib.lib(cylinder.obj) : warning LNK4099: PDB 'cameraLib.pdb' was not found with 'cameraLib.lib(cylinder.obj)' or at 'H:\github\homeworks\cmput411\AS5\camera-posted\Release\cameraLib.pdb'; linking object as if no debug info
+cameraLib.lib(ray.obj) : warning LNK4099: PDB 'cameraLib.pdb' was not found with 'cameraLib.lib(ray.obj)' or at 'H:\github\homeworks\cmput411\AS5\camera-posted\Release\cameraLib.pdb'; linking object as if no debug info
+cameraLib.lib(plucker.obj) : warning LNK4099: PDB 'cameraLib.pdb' was not found with 'cameraLib.lib(plucker.obj)' or at 'H:\github\homeworks\cmput411\AS5\camera-posted\Release\cameraLib.pdb'; linking object as if no debug info
+  AS51.vcxproj -> H:\github\homeworks\cmput411\AS5\camera-posted\Release\AS51.exe

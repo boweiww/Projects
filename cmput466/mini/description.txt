@@ -1,0 +1,53 @@
+Bowei Wang 1462495
+cmput466 mini-project:
+
+description of the dataset:
+
+The dataset I have chosen is mnist, which is a very representative dataset for image identification. Mnist is a bunch of hand-written digits which range from 0-9. I think this is a very typical classification problem.
+
+
+
+problem specification:
+
+I am curious about the effect of neural network on image idnetification. Although people usually use convolution neural network which we haven't learn, I would like to try to compare the effect of simple neural network with logistic regression to figure out which one is better.
+mini-batch gradient descent is popular in neural network, but I don't think it works better than sgd. I would like to compare the effect of them.
+
+
+
+question asked:
+
+Why dose the neural network usually used in image identification? Is neural network works much better than other classification algorithms like simple logistic regression?  
+How to choose either mini-batch gd or sgd while trying to do some learning?
+
+
+
+methods:
+
+The algorithm I would like to compare is: basic logistic regression with sgd, neural network with sgd and neural network with mini-batch gd.
+
+
+
+reason of choosing these algorithem:
+
+logistic regression with sgd :            Basic logistic regression is one of the most easy and typical method of classification algorithms. It is great to choose this algorithm as the beginning of this problem.
+
+neural network with sgd:                  Neural network is popular recently. Besides, nn is usually chosen to deal with image identification problems. I would like choose nn with sgd as a comparison with the logistic regression with sgd. By this comparision I can approximately know which algorithm is better on image identification.
+
+neural network with mini-batch gd: While I also need to compare the effect of sgd and mini-batch gd. It is reasonable to use mini-batch gd on the same neural network and compare the effect of them.
+
+
+
+design of experiments:
+
+data split: since the mnist already have the test dataset£¨10000£©and training dataset£¨60000£©. I would just split 10000 data from the training as the validation set, therefore we have 50000 data as training set, 10000 data as validation set and 10000 data as test set.
+
+statistical significance tests: While comparing two algorithms, first use Welch's t-test in the first 50 epochs to measure which algorithm can learn faster at beginning.
+Then use Student's t test on 500-600 epochs(where I believe the std is pretty small and can be regarded same as each other) to compare the final effect of the algorithm.
+
+The process should be look like this: For the first 50 epochs, use data from validation set to evaluate the learning ability at the end of each epoch. Use these 50 results to do the Welch's t-test to measure the learning speed.
+Then, for 50-500 epochs, just do simple training. In 500-600 epoch, use the data from validation set to get the accuracy of each algorithm, put the result into Student's t-test to measure which one has the better final performance.
+After 600 epochs, stop training, put the data from test set into the model, and compare the final result of each model. If nothing works wrong, the result from the test dataset should be same as the result from the Student's t-test.
+
+
+
+

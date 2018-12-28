@@ -1,0 +1,24 @@
+cmput466 assignment2 question2
+(a): 
+I have kept increasing the number of features and I found when the number of features comes to 80, it does not work anymore.
+An error happened. It says :
+"  raise LinAlgError("Singular matrix")  numpy.linalg.linalg.LinAlgError: Singular matrix"
+It does not work for any feature number in between 80-385.
+
+(b)standard error is reported
+
+(c)Ridge Regression is added.
+Different from feature select linear regression in (a), even all the features are included, there is no error.
+The reason is that when the feature number becomes larger, the product of XT¡¤X could be sigular matrix and cannot be inversed.
+However in ridge regression, an identity matrix * lambda will be added to XT¡¤X that aviod the sigular case.
+
+(d)Lasso is added
+
+(e)SGD is added, the Average error for SGD is : 0.24847505429459588, standard error for SGD is : 0.00012867571444407378
+
+(f)batch gradient descent added
+The error decreases for batch gradient and slightly increases for stochastic gradient descent as the epoch increase, but the standard error for both are decrease. 
+
+Besides, as you increase the number of epoch, the running time also increases, that means for batch gradient descent, the error decreases as the running time becomes longer.
+
+

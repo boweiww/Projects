@@ -1,6 +1,7 @@
 
 //  AUTHOR:  Herb Yang
-//  
+//  Cmput 411 assignment3
+//  Bowei Wang
 #include <GL/glut.h>
 #include <FreeImage.h>
 #include <iostream>
@@ -232,8 +233,8 @@ void dotDiffusion()
 			eb = b - nb;
 
 			W = 0;
-			for (n = -1; n < 2; n++) {
-				for (m = -1; m < 2; m++) {
+			for (n = -NEIGHBOURHOODSIZE; n < NEIGHBOURHOODSIZE+1; n++) {
+				for (m = -NEIGHBOURHOODSIZE; m < NEIGHBOURHOODSIZE+1; m++) {
 					//possible inverse of i,j
 					if (m == 0 && n == 0 || !isValidNeighbour(j + m, i + n)) {
 						continue;
@@ -245,12 +246,16 @@ void dotDiffusion()
 					}
 				}
 			}
+			//int cc = 0;
 			if (W > 0) {
-				for (n = -1; n < 2; n++) {
-					for (m = -1; m < 2; m++) {
+				for (n = -NEIGHBOURHOODSIZE; n < NEIGHBOURHOODSIZE+1; n++) {
+					for (m = -NEIGHBOURHOODSIZE; m < NEIGHBOURHOODSIZE+1; m++) {
 						if (m == 0 && n == 0 || !isValidNeighbour(j + m, i + n)) {
 							continue;
 						}
+						/*cout << "number : " << cc << " \n"  ;
+						cc++;*/
+
 						temp[((i + n)*imageSizeX + j + m) * 3] = limit_color(temp[((i + n)*imageSizeX + j + m) * 3] + er * weight(m, n) / W);
 						temp[((i + n)*imageSizeX + j + m) * 3 + 1] = limit_color(temp[((i + n)*imageSizeX + j + m) * 3 + 1] + eg * weight(m, n) / W);
 						temp[((i + n)*imageSizeX + j + m) * 3 + 2] = limit_color(temp[((i + n)*imageSizeX + j + m) * 3 + 2] + eb * weight(m, n) / W);

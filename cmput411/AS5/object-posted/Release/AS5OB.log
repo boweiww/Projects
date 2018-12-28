@@ -1,0 +1,21 @@
+﻿  cylinder.cpp
+  disk.cpp
+  main.cpp
+  plucker.cpp
+  poly.cpp
+f:\as5\object-posted\src\poly.cpp(97): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+  sphere.cpp
+  Generating Code...
+LINK : warning LNK4075: ignoring '/INCREMENTAL' due to '/OPT:ICF' specification
+  objectLib.lib(color.obj) : MSIL .netmodule or module compiled with /GL found; restarting link with /LTCG; add /LTCG to the link command line to improve linker performance
+LINK : warning LNK4075: ignoring '/INCREMENTAL' due to '/LTCG' specification
+  Generating code
+  Finished generating code
+objectLib.lib(color.obj) : warning LNK4099: PDB 'objectLib.pdb' was not found with 'objectLib.lib(color.obj)' or at 'F:\AS5\object-posted\Release\objectLib.pdb'; linking object as if no debug info
+objectLib.lib(vector3.obj) : warning LNK4099: PDB 'objectLib.pdb' was not found with 'objectLib.lib(vector3.obj)' or at 'F:\AS5\object-posted\Release\objectLib.pdb'; linking object as if no debug info
+objectLib.lib(imageviewer.obj) : warning LNK4099: PDB 'objectLib.pdb' was not found with 'objectLib.lib(imageviewer.obj)' or at 'F:\AS5\object-posted\Release\objectLib.pdb'; linking object as if no debug info
+objectLib.lib(parser.obj) : warning LNK4099: PDB 'objectLib.pdb' was not found with 'objectLib.lib(parser.obj)' or at 'F:\AS5\object-posted\Release\objectLib.pdb'; linking object as if no debug info
+objectLib.lib(scene.obj) : warning LNK4099: PDB 'objectLib.pdb' was not found with 'objectLib.lib(scene.obj)' or at 'F:\AS5\object-posted\Release\objectLib.pdb'; linking object as if no debug info
+objectLib.lib(camera.obj) : warning LNK4099: PDB 'objectLib.pdb' was not found with 'objectLib.lib(camera.obj)' or at 'F:\AS5\object-posted\Release\objectLib.pdb'; linking object as if no debug info
+objectLib.lib(ray.obj) : warning LNK4099: PDB 'objectLib.pdb' was not found with 'objectLib.lib(ray.obj)' or at 'F:\AS5\object-posted\Release\objectLib.pdb'; linking object as if no debug info
+  AS5OB.vcxproj -> F:\AS5\object-posted\Release\AS5OB.exe

@@ -1,0 +1,23 @@
+﻿H:\VS\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets(391,5): warning MSB8028: The intermediate directory (Debug\) contains files shared from another project (AS5CA.vcxproj).  This can lead to incorrect clean and rebuild behavior.
+  cameraLib.lib(vector3.obj) : MSIL .netmodule or module compiled with /GL found; restarting link with /LTCG; add /LTCG to the link command line to improve linker performance
+LINK : warning LNK4075: ignoring '/INCREMENTAL' due to '/LTCG' specification
+cameraLib.lib(imageviewer.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '0' doesn't match value '2' in main.obj
+cameraLib.lib(imageviewer.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MD_DynamicRelease' doesn't match value 'MDd_DynamicDebug' in main.obj
+cameraLib.lib(parser.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '0' doesn't match value '2' in main.obj
+cameraLib.lib(parser.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MD_DynamicRelease' doesn't match value 'MDd_DynamicDebug' in main.obj
+cameraLib.lib(scene.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '0' doesn't match value '2' in main.obj
+cameraLib.lib(scene.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MD_DynamicRelease' doesn't match value 'MDd_DynamicDebug' in main.obj
+cameraLib.lib(poly.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '0' doesn't match value '2' in main.obj
+cameraLib.lib(poly.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MD_DynamicRelease' doesn't match value 'MDd_DynamicDebug' in main.obj
+cameraLib.lib(disk.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '0' doesn't match value '2' in main.obj
+cameraLib.lib(disk.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MD_DynamicRelease' doesn't match value 'MDd_DynamicDebug' in main.obj
+cameraLib.lib(sphere.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '0' doesn't match value '2' in main.obj
+cameraLib.lib(sphere.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MD_DynamicRelease' doesn't match value 'MDd_DynamicDebug' in main.obj
+cameraLib.lib(cylinder.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '0' doesn't match value '2' in main.obj
+cameraLib.lib(cylinder.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MD_DynamicRelease' doesn't match value 'MDd_DynamicDebug' in main.obj
+LINK : warning LNK4098: defaultlib 'MSVCRT' conflicts with use of other libs; use /NODEFAULTLIB:library
+cameraLib.lib(imageviewer.obj) : error LNK2001: unresolved external symbol __imp__FreeImage_Save@16
+cameraLib.lib(imageviewer.obj) : error LNK2001: unresolved external symbol __imp__FreeImage_SetPixelColor@16
+cameraLib.lib(imageviewer.obj) : error LNK2001: unresolved external symbol __imp__FreeImage_Allocate@24
+MSVCRTD.lib(exe_winmain.obj) : error LNK2001: unresolved external symbol _WinMain@16
+H:\github\homeworks\cmput411\AS5\camera-posted\Debug\AS51.exe : fatal error LNK1120: 4 unresolved externals

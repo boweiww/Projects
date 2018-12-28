@@ -1,0 +1,3 @@
+﻿H:\VS\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets(391,5): warning MSB8028: The intermediate directory (Release\) contains files shared from another project (AS5OB.vcxproj).  This can lead to incorrect clean and rebuild behavior.
+LINK : warning LNK4075: ignoring '/INCREMENTAL' due to '/OPT:ICF' specification
+LINK : fatal error LNK1104: cannot open file 'H:\github\homeworks\cmput411\AS5\object-posted\Release\AS5OBJ.exe'

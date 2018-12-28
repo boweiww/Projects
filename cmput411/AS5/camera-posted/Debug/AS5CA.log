@@ -1,0 +1,22 @@
+﻿  cameraLib.lib(vector3.obj) : 找到 MSIL .netmodule 或使用 /GL 编译的模块；正在使用 /LTCG 重新启动链接；将 /LTCG 添加到链接命令行以改进链接器性能
+LINK : warning LNK4075: 忽略“/INCREMENTAL”(由于“/LTCG”规范)
+cameraLib.lib(imageviewer.obj) : error LNK2038: 检测到“_ITERATOR_DEBUG_LEVEL”的不匹配项: 值“0”不匹配值“2”(main.obj 中)
+cameraLib.lib(imageviewer.obj) : error LNK2038: 检测到“RuntimeLibrary”的不匹配项: 值“MD_DynamicRelease”不匹配值“MDd_DynamicDebug”(main.obj 中)
+cameraLib.lib(parser.obj) : error LNK2038: 检测到“_ITERATOR_DEBUG_LEVEL”的不匹配项: 值“0”不匹配值“2”(main.obj 中)
+cameraLib.lib(parser.obj) : error LNK2038: 检测到“RuntimeLibrary”的不匹配项: 值“MD_DynamicRelease”不匹配值“MDd_DynamicDebug”(main.obj 中)
+cameraLib.lib(scene.obj) : error LNK2038: 检测到“_ITERATOR_DEBUG_LEVEL”的不匹配项: 值“0”不匹配值“2”(main.obj 中)
+cameraLib.lib(scene.obj) : error LNK2038: 检测到“RuntimeLibrary”的不匹配项: 值“MD_DynamicRelease”不匹配值“MDd_DynamicDebug”(main.obj 中)
+cameraLib.lib(poly.obj) : error LNK2038: 检测到“_ITERATOR_DEBUG_LEVEL”的不匹配项: 值“0”不匹配值“2”(main.obj 中)
+cameraLib.lib(poly.obj) : error LNK2038: 检测到“RuntimeLibrary”的不匹配项: 值“MD_DynamicRelease”不匹配值“MDd_DynamicDebug”(main.obj 中)
+cameraLib.lib(disk.obj) : error LNK2038: 检测到“_ITERATOR_DEBUG_LEVEL”的不匹配项: 值“0”不匹配值“2”(main.obj 中)
+cameraLib.lib(disk.obj) : error LNK2038: 检测到“RuntimeLibrary”的不匹配项: 值“MD_DynamicRelease”不匹配值“MDd_DynamicDebug”(main.obj 中)
+cameraLib.lib(sphere.obj) : error LNK2038: 检测到“_ITERATOR_DEBUG_LEVEL”的不匹配项: 值“0”不匹配值“2”(main.obj 中)
+cameraLib.lib(sphere.obj) : error LNK2038: 检测到“RuntimeLibrary”的不匹配项: 值“MD_DynamicRelease”不匹配值“MDd_DynamicDebug”(main.obj 中)
+cameraLib.lib(cylinder.obj) : error LNK2038: 检测到“_ITERATOR_DEBUG_LEVEL”的不匹配项: 值“0”不匹配值“2”(main.obj 中)
+cameraLib.lib(cylinder.obj) : error LNK2038: 检测到“RuntimeLibrary”的不匹配项: 值“MD_DynamicRelease”不匹配值“MDd_DynamicDebug”(main.obj 中)
+cameraLib.lib(imageviewer.obj) : error LNK2001: 无法解析的外部符号 __imp__FreeImage_Save@16
+cameraLib.lib(imageviewer.obj) : error LNK2001: 无法解析的外部符号 __imp__FreeImage_SetPixelColor@16
+cameraLib.lib(imageviewer.obj) : error LNK2001: 无法解析的外部符号 __imp__FreeImage_Allocate@24
+msvcprtd.lib(locale0_implib.obj) : error LNK2001: 无法解析的外部符号 __imp___free_dbg
+msvcprtd.lib(locale0_implib.obj) : error LNK2001: 无法解析的外部符号 __imp___malloc_dbg
+H:\github\homeworks\cmput411\AS5\camera-posted\Debug\AS5CA.exe : fatal error LNK1120: 5 个无法解析的外部命令
