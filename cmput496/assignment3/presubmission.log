@@ -1,0 +1,33 @@
+Script started on Sun Mar 17 16:12:51 2019
+[?1034hbash-3.2$ cp assignment3.tgz /Users/wuyuandi/Desktop/assignment3
+bash-3.2$ cd assignment3
+bash-3.2$ tar-[K -xvzf assignment3.tgz
+x as3/
+x as3/index.html
+x as3/._.DS_Store
+x as3/.DS_Store
+x as3/._board_util.py
+x as3/board_util.py
+x as3/._Gomoku.py
+x as3/Gomoku.py
+x as3/._Gomoku3.py
+x as3/Gomoku3.py
+x as3/._gtp_connection.py
+x as3/gtp_connection.py
+x as3/._assignment3-public-tests.gtp.html
+x as3/assignment3-public-tests.gtp.html
+x as3/._simple_board.py
+x as3/simple_board.py
+x as3/._readme.txt
+x as3/readme.txt
+x as3/._assignment3-public-tests.gtp.out.html
+x as3/assignment3-public-tests.gtp.out.html
+x as3/._assignment3-public-tests.gtp
+x as3/assignment3-public-tests.gtp
+x as3/summary.dat
+bash-3.2$ cd as3
+bash-3.2$ ?[K/Users/wuyuandi/gogui/bin/gogui-regress 'python Gomoku3.py' assignment 3-public-tests.gtp
+bash-3.2$ exit
+exit
+
+Script done on Sun Mar 17 16:15:07 2019
